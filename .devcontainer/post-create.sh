@@ -17,6 +17,10 @@ sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
 sudo apt-get update
 sudo apt-get install pack-cli
 
+# Install draft
+curl -Lso draft https://github.com/Azure/draft/releases/download/v0.0.22/draft-linux-amd64
+sudo install draft /usr/local/bin/
+
 # Install skaffold
 curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
 sudo install skaffold /usr/local/bin/
