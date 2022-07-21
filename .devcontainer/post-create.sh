@@ -20,10 +20,12 @@ sudo apt-get install pack-cli
 # Install draft
 curl -Lso draft https://github.com/Azure/draft/releases/download/v0.0.22/draft-linux-amd64
 sudo install draft /usr/local/bin/
+rm -rf ./draft
 
 # Install skaffold
 curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
 sudo install skaffold /usr/local/bin/
+rm -rf ./skaffold 
 
 # update the base docker images
 docker pull bjd145/utils:3.9
