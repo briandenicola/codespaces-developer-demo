@@ -1,9 +1,11 @@
 # Overview
 
 # Quicksteps
-1. make cluster
+1. make cluster (or make all)
 1. make credentials
-1. make app
+1. make manifests
+1. cd src
+1. skaffold dev
 
 ## Draft Answers 
     draft create
