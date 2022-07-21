@@ -11,24 +11,30 @@ help :
 all : create creds app
 
 delete :
+	@pushd
 	@cd infrastructure
-	@terraform init
 	@terraform destroy -auto-approve
+	@popd
 
 cluster : 
+	@pushd
 	@cd infrastructure
 	@terraform init
 	@terraform apply -auto-approve
+	@popd
 
 creds : cluster
+	@pushd
 	@cd infrastructure
 	@export RG=`terraform output AKS_RESOURCE_GROUP`
 	@export AKS=`terraform output AKS_CLUSTER_NAME`
 
 	@az aks get-credentials --resource-group ${RG} --name ${AKS}
 	@kubelogin convert-kubeconfig -l azurecli
+	@popd
 
-app : 
-	@cd ../src
-	draft create
+app :
+	@pushd
+	@cd src
+	@draft create
 	@skaffold dev 
