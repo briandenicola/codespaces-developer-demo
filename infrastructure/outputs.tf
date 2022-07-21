@@ -7,3 +7,8 @@ output "AKS_CLUSTER_NAME" {
     value = azurerm_kubernetes_cluster.this.name
     sensitive = true
 }
+
+output "ACR_NAME" {
+    value = azurerm_container_registry.this.login_server
+    sensitive = true
+}

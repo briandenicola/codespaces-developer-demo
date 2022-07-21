@@ -22,8 +22,7 @@ locals {
   location        = "southcentralus"
   resource_name   = "${random_pet.this.id}-${random_id.this.dec}"
   aks_name        = "${local.resource_name}-aks"
-  flux_path       = "./clusters/aks-01"
-  flux_repository = "https://github.com/briandenicola/aks-flux-extension"
+  acr_name        = "acr${local.resource_name}"
 }
 
 resource "azurerm_resource_group" "this" {
