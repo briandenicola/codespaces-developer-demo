@@ -16,12 +16,11 @@ delete :
 cluster : 
 	cd infrastructure && terraform init && terraform apply -auto-approve
 
-creds : cluster
-	cd infrastructure && \ 
-	export RG=`terraform output AKS_RESOURCE_GROUP` && \
-	export AKS=`terraform output AKS_CLUSTER_NAME` && \
-
-	az aks get-credentials --resource-group ${RG} --name ${AKS} && \
+creds : 
+	cd infrastructure \&&
+	export RG=`terraform output AKS_RESOURCE_GROUP` \&& 
+	export AKS=`terraform output AKS_CLUSTER_NAME` \&& 
+	az aks get-credentials -g ${RG} -n ${AKS} \&& 
 	kubelogin convert-kubeconfig -l azurecli
 
 manifests :
