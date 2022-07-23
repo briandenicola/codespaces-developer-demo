@@ -25,6 +25,9 @@ curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffo
 sudo install skaffold /usr/local/bin/
 rm -rf ./skaffold 
 
+# Update Kubelogin and kubectl
+sudo az aks install-cli
+
 # update the base docker images
 docker pull bjd145/utils:3.9
 
