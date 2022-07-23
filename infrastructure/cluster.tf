@@ -10,7 +10,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   location                        = azurerm_resource_group.this.location
   node_resource_group             = "${local.resource_name}_k8s_nodes_rg"
   dns_prefix                      = local.aks_name
-  sku_tier                        = "Paid"
+  sku_tier                        = "Free"
   oidc_issuer_enabled             = true
   open_service_mesh_enabled       = true
   azure_policy_enabled            = true
@@ -36,14 +36,14 @@ resource "azurerm_kubernetes_cluster" "this" {
 
   default_node_pool {
     name                = "default"
-    node_count          = 3
-    vm_size             = "Standard_DS2_v2"
+    node_count          = 2
+    vm_size             = "Standard_DS4_v2"
     os_disk_size_gb     = 30
     vnet_subnet_id      = azurerm_subnet.this.id
     type                = "VirtualMachineScaleSets"
     enable_auto_scaling = true
-    min_count           = 3
-    max_count           = 10
+    min_count           = 1
+    max_count           = 2
     max_pods            = 40
   }
 
