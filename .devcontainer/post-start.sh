@@ -4,6 +4,6 @@
 
 echo "$(date)    post-start start" >> ~/status
 
-az login
+#az login
 
 echo "$(date)    post-start complete" >> ~/status
