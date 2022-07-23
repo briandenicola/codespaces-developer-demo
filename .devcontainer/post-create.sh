@@ -5,17 +5,15 @@
 echo "$(date)    post-create start" >> ~/status
 
 # Install golang v18.4
-export VERSION=1.18.4
-curl -fsS https://dl.google.com/go/go${VERSION}.linux-amd64.tar.gz -o golang.tar.gz
-sudo tar -xvf golang.tar.gz
-sudo rm -rf /usr/local/go
-rm -rf /tmp/golang.tar.gz
-sudo mv go /usr/local/bin
+#export VERSION=1.18.4
+#curl -fsS https://dl.google.com/go/go${VERSION}.linux-amd64.tar.gz -o golang.tar.gz
+#sudo tar -xvf golang.tar.gz
+#sudo rm -rf /usr/local/go
+#rm -rf /tmp/golang.tar.gz
+#sudo mv go /usr/local/bin
 
 # Install buildpacks
-sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
-sudo apt-get update
-sudo apt-get install pack-cli
+(curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.27.0/pack-v0.27.0-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
 
 # Install draft
 curl -Lso draft https://github.com/Azure/draft/releases/download/v0.0.22/draft-linux-amd64
