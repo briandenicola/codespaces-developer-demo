@@ -33,5 +33,6 @@ resource "azurerm_resource_group" "this" {
     Application = "httpdemo"
     Components  = "aks; flux"
     DeployedOn  = timestamp()
+    Deployer    = data.azurerm_client_config.current.object_id
   }
 }
