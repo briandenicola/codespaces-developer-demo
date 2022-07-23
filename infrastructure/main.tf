@@ -22,7 +22,7 @@ locals {
   location        = "southcentralus"
   resource_name   = "${random_pet.this.id}-${random_id.this.dec}"
   aks_name        = "${local.resource_name}-aks"
-  acr_name        = "acr${local.resource_name}"
+  acr_name        = "acr${random_pet.this.id}${random_id.this.dec}"
 }
 
 resource "azurerm_resource_group" "this" {
