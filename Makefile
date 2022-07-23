@@ -6,35 +6,23 @@ help :
 	@echo "   make cluster          - create a AKS cluster "
 	@echo "   make delete           - delete the AKS cluster "
 	@echo "   make creds            - gets AKS credential files "
-	@echo "   make app              - build and deploys the app "
+	@echo "   make manifests        - generates application manifests "
 
-all : create creds app
+all : create creds manifests 
 
 delete :
-	@pushd
-	@cd infrastructure
-	@terraform destroy -auto-approve
-	@popd
+	cd infrastructure &&  terraform destroy -auto-approve
 
 cluster : 
-	@pushd
-	@cd infrastructure
-	@terraform init
-	@terraform apply -auto-approve
-	@popd
+	cd infrastructure && terraform init && terraform apply -auto-approve
 
 creds : cluster
-	@pushd
-	@cd infrastructure
-	@export RG=`terraform output AKS_RESOURCE_GROUP`
-	@export AKS=`terraform output AKS_CLUSTER_NAME`
+	cd infrastructure && \ 
+	export RG=`terraform output AKS_RESOURCE_GROUP` && \
+	export AKS=`terraform output AKS_CLUSTER_NAME` && \
 
-	@az aks get-credentials --resource-group ${RG} --name ${AKS}
-	@kubelogin convert-kubeconfig -l azurecli
-	@popd
+	az aks get-credentials --resource-group ${RG} --name ${AKS} && \
+	kubelogin convert-kubeconfig -l azurecli
 
-app :
-	@pushd
-	@cd src
-	@draft create
-	@skaffold dev 
+manifests :
+	cd src && draft create
