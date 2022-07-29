@@ -6,5 +6,5 @@ build:
 deploy:
   kustomize: 
     paths: 
-    - overlays/production
+    - overlays/dev
     defaultNamespace: whatos
