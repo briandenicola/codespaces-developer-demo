@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy app
+.PHONY: help all create creds manifests container
 
 help :
 	@echo "Usage:"
@@ -7,8 +7,9 @@ help :
 	@echo "   make delete           - delete the AKS cluster "
 	@echo "   make creds            - gets AKS credential files "
 	@echo "   make manifests        - generates application manifests "
+	@echo "   make container        - builds docker container "
 
-all : create creds manifests 
+all : create creds manifests container
 
 delete :
 	cd infrastructure &&  terraform destroy -auto-approve
@@ -23,3 +24,9 @@ creds :
 
 manifests :
 	cd src && draft create
+
+container : 
+	cd infrastructure && export ACR_NAME=`terraform output ACR_NAME | tr -d \"` && \
+	cd ../src && docker build -t ${ACR_NAME}/whatos:latest . && \
+	az acr login -n ${ACR_NAME} && \
+	docker push ${ACR_NAME}/whatos:latest
