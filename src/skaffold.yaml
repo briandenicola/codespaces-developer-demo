@@ -1,0 +1,10 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+build:
+  artifacts:
+  - image: whatos
+deploy:
+  kustomize: 
+    paths: 
+    - overlays/production
+    defaultNamespace: whatos

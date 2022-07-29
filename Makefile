@@ -18,7 +18,7 @@ cluster :
 	cd infrastructure && terraform init && terraform apply -auto-approve
 
 creds : 
-	cd infrastructure && export RG=`terraform output AKS_RESOURCE_GROUP` &&  export AKS=`terraform output AKS_CLUSTER_NAME` && \
+	cd infrastructure && export RG=`terraform output AKS_RESOURCE_GROUP` && export AKS=`terraform output AKS_CLUSTER_NAME` && \
 	az aks get-credentials -g ${RG} -n ${AKS} &&  \
 	kubelogin convert-kubeconfig -l azurecli
 
@@ -26,9 +26,8 @@ manifests :
 	cd src && draft create
 
 container : 
-	cd infrastructure && export ACR_NAME=`terraform output ACR_NAME | tr -d \"` && \
-	cd ../src && docker build -t ${ACR_NAME}/whatos:latest . && \
+	cd src && docker build -t ${ACR_NAME}/whatos:latest . && \
 	az acr login -n ${ACR_NAME} && \
 	docker push ${ACR_NAME}/whatos:latest && \
-	helm upgrade -i whatos --namespace whatos --create-namespace charts/.
+
 
