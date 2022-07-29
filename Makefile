@@ -3,7 +3,8 @@
 help :
 	@echo "Usage:"
 	@echo "   make all              - create a cluster and deploy the apps "
-	@echo "   make cluster          - create a AKS cluster "
+	@echo "   make cluster          - create a AKS cluster and gets credentials"
+	@echo "   make infrastructure   - updates infrastructure"
 	@echo "   make delete           - delete the AKS cluster "
 	@echo "   make creds            - gets AKS credential files "
 	@echo "   make manifests        - generates application manifests "
@@ -13,8 +14,11 @@ all : cluster creds container
 
 delete :
 	cd infrastructure &&  terraform destroy -auto-approve
+	rm -rf infrastructure/.terraform* && rm -rf infrastructure/terraform.*
 
-cluster : 
+cluster : infrastructure creds
+
+infrastructure :
 	cd infrastructure && terraform init && terraform apply -auto-approve
 
 creds : 
