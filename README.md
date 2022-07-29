@@ -4,6 +4,7 @@
 1. make cluster (or make all)
 1. make credentials
 1. make manifests
+1. make container
 1. cd src
 1. skaffold dev
 
@@ -12,4 +13,4 @@
         Modules: Yes
         Ports Expose: 8081
         Name of Application: whatos
-        Deployment Type: kustomize 
+        Deployment Type: kustomize (or helm) 
