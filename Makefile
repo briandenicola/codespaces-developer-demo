@@ -29,4 +29,6 @@ container :
 	cd infrastructure && export ACR_NAME=`terraform output ACR_NAME | tr -d \"` && \
 	cd ../src && docker build -t ${ACR_NAME}/whatos:latest . && \
 	az acr login -n ${ACR_NAME} && \
-	docker push ${ACR_NAME}/whatos:latest
+	docker push ${ACR_NAME}/whatos:latest && \
+	helm upgrade -i whatos --namespace whatos --create-namespace charts/.
+
