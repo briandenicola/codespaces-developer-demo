@@ -1,6 +1,6 @@
-module github.com/briandenicola/modern-kubernetes-dev-environment
+module github.com/briandenicola/devcontainer-demo-with-skaffold
 
-go 1.18
+go 1.17
 
 require (
 	github.com/gorilla/mux v1.8.0
