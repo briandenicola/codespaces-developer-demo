@@ -13,5 +13,9 @@ resource "azurerm_container_registry" "this" {
       action   = "Allow"
       ip_range = "${chomp(data.http.myip.body)}"
     }
+    ip_rule {
+      action   = "Allow"
+      ip_range = data.azurerm_public_ip.aks.ip_address
+    }
   }
 }
