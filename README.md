@@ -1,14 +1,15 @@
 # Overview
 
+TBD
+
 # Quicksteps
 1. make cluster (or make all)
 1. make credentials
 1. make manifests #Optional
     * draft will create an external load balancer in AKS which may or may not be allowed by policy. 
 1. cd infrastructure && export SKAFFOLD_DEFAULT_REPO=`terraform output ACR_NAME | tr -d \"` && cd ..
-1. cd src
-1. skaffold dev
-    * Can also do:
+1. cd src && skaffold dev
+    * Alternatively:
         ```
         cd infrastructure && export ACR_NAME=`terraform output ACR_NAME | tr -d \"` && cd ..
         make container 
@@ -22,3 +23,7 @@
         Ports Expose: 8081
         Name of Application: whatos
         Deployment Type: kustomize
+
+# Backlog
+- [] Workload identity deployment
+- [] Developer namespace with OSM enabled 
