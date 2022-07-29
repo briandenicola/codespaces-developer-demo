@@ -5,5 +5,6 @@
 echo "$(date)    post-start start" >> ~/status
 
 #az login
+#make cluster
 
 echo "$(date)    post-start complete" >> ~/status
