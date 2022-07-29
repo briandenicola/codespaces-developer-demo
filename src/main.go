@@ -21,6 +21,10 @@ type OS struct {
 	Version string
 }
 
+type KeepAlive struct {
+	State		string `json:"state"`
+}
+
 type newAPIHandler struct { }
 func (eh *newAPIHandler) getOperatingSystemHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -48,6 +52,11 @@ func main() {
 	apirouter := r.PathPrefix("/api").Subrouter()
 	apirouter.Methods("GET").Path("/os").HandlerFunc(handler.getOperatingSystemHandler)
 	apirouter.Methods("OPTIONS").Path("/os").HandlerFunc(handler.optionsHandler)
+
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		json.NewEncoder(w).Encode(KeepAlive{State: "I'm alive!"})
+	})
 
 	server := cors.Default().Handler(r)
 
