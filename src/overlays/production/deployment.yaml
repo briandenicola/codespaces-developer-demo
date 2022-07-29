@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatos
+  labels:
+    app: whatos
+spec:
+  selector:
+    matchLabels:
+      app: whatos
+  template:
+    spec:
+      containers:
+        - name: whatos
+          image: whatos

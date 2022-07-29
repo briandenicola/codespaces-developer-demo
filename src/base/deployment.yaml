@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatos
+  labels:
+    app: whatos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whatos
+  template:
+    metadata:
+      labels:
+        app: whatos
+    spec:
+      containers:
+        - name: whatos
+          image: whatos:latest
+          ports:
+            - containerPort: 8081
