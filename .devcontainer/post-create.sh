@@ -33,7 +33,7 @@ docker pull bjd145/utils:3.9
 
 # Setup Bashrc 
 echo alias k='kubectl' >> ~/.bashrc
-echo alias utils=\'k run --restart=Never --rm -it --image=bjd145/utils:3.8 utils\' >> ~/.bashrc
+echo alias utils=\'kubectl run --restart=Never --image=bjd145/utils:3.7 utils\' >> ~/.bashrc
 echo 'source <(kubectl completion bash)' >> ~/.bashrc
 echo 'complete -F __start_kubectl k' >> ~/.bashrc
 

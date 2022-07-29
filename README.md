@@ -13,6 +13,8 @@
         cd infrastructure && export ACR_NAME=`terraform output ACR_NAME | tr -d \"` && cd ..
         make container 
         ```
+1. utils && kubectl exec -it utils -- bash 
+1. curl http://production-whatos.whatos/api/os
 
 ## Draft Answers 
     draft create
