@@ -9,7 +9,7 @@ help :
 	@echo "   make manifests        - generates application manifests "
 	@echo "   make container        - builds docker container "
 
-all : create creds manifests container
+all : cluster creds container
 
 delete :
 	cd infrastructure &&  terraform destroy -auto-approve
@@ -29,5 +29,4 @@ container :
 	cd src && docker build -t ${ACR_NAME}/whatos:latest . && \
 	az acr login -n ${ACR_NAME} && \
 	docker push ${ACR_NAME}/whatos:latest && \
-
-
+	kubectl apply -k ./overlays/dev
