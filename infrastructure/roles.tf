@@ -38,6 +38,9 @@ resource "azurerm_role_assignment" "admin" {
 }
 
 resource "azurerm_role_assignment" "web_app_routing" {
+  depends_on = [
+    null_resource.web_app_routing_install
+  ]
   scope                = azurerm_key_vault.this.id
   role_definition_name = "Key Vault Certificates Officer"
   principal_id         = data.azurerm_user_assigned_identity.web_app_routing.principal_id

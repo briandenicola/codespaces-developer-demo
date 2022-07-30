@@ -16,6 +16,9 @@ resource "azurerm_key_vault" "this" {
 }
 
 resource "azurerm_key_vault_certificate" "this" {
+  depends_on = [
+    azurerm_role_assignment.admin
+  ]
   name         = "developer-certificate"
   key_vault_id = azurerm_key_vault.this.id
 

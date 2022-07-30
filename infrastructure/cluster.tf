@@ -70,27 +70,19 @@ resource "azurerm_kubernetes_cluster" "this" {
 
 }
 
-resource "azapi_resource" "web_app_routing_install" {
+resource "null_resource" "web_app_routing_install" {
   depends_on = [
     azurerm_kubernetes_cluster.this
   ]
-
-  type      = "managedClusters@2022-05-02-preview"
-  name      = "webapprouting"
-  parent_id = azurerm_kubernetes_cluster.this.id
-
-  body = jsonencode({
-    properties = {
-      ingressProfile: {
-        webAppRouting: {
-          enabled: true
-        }
-      }
-    }
-  })
+  provisioner "local-exec" {
+    command = "az aks enable-addons --resource-group ${azurerm_resource_group.this.name} --name ${local.aks_name} --addons web_application_routing"
+  }
 }
 
 data "azurerm_user_assigned_identity" "web_app_routing" {
+  depends_on = [
+    null_resource.web_app_routing_install
+  ]
   name                = "webapprouting-${local.aks_name}"
   resource_group_name = azurerm_kubernetes_cluster.this.node_resource_group
 }
