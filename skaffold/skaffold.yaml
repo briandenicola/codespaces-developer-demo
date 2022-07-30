@@ -3,8 +3,9 @@ kind: Config
 build:
   artifacts:
   - image: whatos
+    context: ../src
 deploy:
   kustomize: 
     paths: 
-    - overlays/dev
+    - overlays/dev-a
     defaultNamespace: whatos

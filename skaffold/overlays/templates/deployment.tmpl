@@ -1,0 +1,6 @@
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  template:
+    spec:
+      serviceAccountName: ${WORKLOAD_IDENTITY}
