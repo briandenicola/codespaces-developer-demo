@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: whatos
   annotations:
-   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    kubernetes.azure.com/ingress-host: ${APPLICATION_URI}
+    kubernetes.azure.com/tls-cert-keyvault-uri: ${CERTIFICATE_KV_URI}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: whatos
   ports:
