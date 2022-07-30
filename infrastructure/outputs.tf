@@ -24,6 +24,6 @@ output "APPLICATION_URI" {
 }
 
 output "WORKLOAD_IDENTITY" {
-    value = azuread_application.this.application_id
+    value = azuread_application.this.display_name
     sensitive = false
 }
