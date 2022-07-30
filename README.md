@@ -3,19 +3,20 @@
 TBD
 
 # Quicksteps
-1. make cluster (or make all)
-1. make credentials
-1. make manifests #Optional
-    * draft will create an external load balancer in AKS which may or may not be allowed by policy. 
-1. cd infrastructure && export SKAFFOLD_DEFAULT_REPO=`terraform output ACR_NAME | tr -d \"` && cd ..
-1. cd src && skaffold dev
-    * Alternatively:
-        ```
-        cd infrastructure && export ACR_NAME=`terraform output ACR_NAME | tr -d \"` && cd ..
-        make container 
-        ```
-1. utils && kubectl exec -it utils -- bash 
-1. curl http://production-whatos.whatos/api/os
+```bash
+make cluster
+
+cd infrastructure
+export SKAFFOLD_DEFAULT_REPO=`terraform output ACR_NAME | tr -d \"`
+export APPLICATION_URI=`terraform output APPLICATION_URI | tr -d \"`
+export CERTIFICATE_KV_URI=`terraform output CERTIFICATE_KV_URI | tr -d \"`
+cd ../src
+envsubst < ./base/service.tmpl > ./base/service.yaml
+skaffold dev
+```
+
+## Notes
+* draft will create an external load balancer in AKS which may or may not be allowed by policy. 
 
 ## Draft Answers 
     draft create
