@@ -11,7 +11,7 @@ resource "azurerm_user_assigned_identity" "aks_kubelet_identity" {
 }
 
 resource "azuread_application" "this" {
-  display_name = "${local.aks_name}-whatos-identity"
+  display_name = "whatos-sa-identity"
   owners       = [data.azurerm_client_config.current.object_id]
 }
 

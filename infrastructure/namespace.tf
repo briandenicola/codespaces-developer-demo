@@ -18,7 +18,15 @@ resource "kubernetes_service_account" "example" {
     kubernetes_namespace.whatos
   ]
   metadata {
-    name      = "${local.aks_name}-whatos-identity"
+    name      = "whatos-sa-identity"
     namespace = "whatos"
+    annotations = {
+      "azure.workload.identity/client-id" = azuread_application.this.application_id
+      "azure.workload.identity/tenant-id" = data.azurerm_client_config.current.tenant_id
+    }
+    labels      = {
+      "azure.workload.identity/use"       = "true"
+    } 
   }
 }
+

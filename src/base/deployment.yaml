@@ -14,6 +14,7 @@ spec:
       labels:
         app: whatos
     spec:
+      serviceAccountName: whatos-sa-identity 
       containers:
         - name: whatos
           image: whatos:latest

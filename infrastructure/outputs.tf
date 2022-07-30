@@ -12,3 +12,13 @@ output "ACR_NAME" {
     value = azurerm_container_registry.this.login_server
     sensitive = true
 }
+
+output "CERTIFICATE_KV_URI" {
+    value = azurerm_key_vault_certificate.this.secret_id
+    sensitive = true
+}
+
+output "APPLICATION_URI" {
+    value = "https://api.${local.resource_name}.local"
+    sensitive = false
+}
