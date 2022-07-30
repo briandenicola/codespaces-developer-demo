@@ -14,7 +14,7 @@ output "ACR_NAME" {
 }
 
 output "CERTIFICATE_KV_URI" {
-    value = azurerm_key_vault_certificate.this.secret_id
+    value = "${azurerm_key_vault_certificate.this.versionless_id}/${azurerm_key_vault_certificate.this.version}"
     sensitive = false
 }
 
