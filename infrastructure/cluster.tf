@@ -5,16 +5,16 @@ resource "azurerm_kubernetes_cluster" "this" {
     ]
   }
 
-  name                            = local.aks_name
-  resource_group_name             = azurerm_resource_group.this.name
-  location                        = azurerm_resource_group.this.location
-  node_resource_group             = "${local.resource_name}_k8s_nodes_rg"
-  dns_prefix                      = local.aks_name
-  sku_tier                        = "Free"
-  oidc_issuer_enabled             = true
-  open_service_mesh_enabled       = true
-  azure_policy_enabled            = true
-  api_server_authorized_ip_ranges = ["${chomp(data.http.myip.body)}/32"]
+  name                              = local.aks_name
+  resource_group_name               = azurerm_resource_group.this.name
+  location                          = azurerm_resource_group.this.location
+  node_resource_group               = "${local.resource_name}_k8s_nodes_rg"
+  dns_prefix                        = local.aks_name
+  sku_tier                          = "Free"
+  oidc_issuer_enabled               = true
+  open_service_mesh_enabled         = true
+  azure_policy_enabled              = true
+  api_server_authorized_ip_ranges   = ["${chomp(data.http.myip.body)}/32"]
 
   azure_active_directory_role_based_access_control {
     managed                = true
@@ -63,6 +63,36 @@ resource "azurerm_kubernetes_cluster" "this" {
     log_analytics_workspace_id = azurerm_log_analytics_workspace.this.id
   }
 
+  key_vault_secrets_provider {
+    secret_rotation_enabled   = true
+    secret_rotation_interval  = "5m"
+  }
+
+}
+
+resource "azapi_resource" "web_app_routing_install" {
+  depends_on = [
+    azurerm_kubernetes_cluster.this
+  ]
+
+  type      = "managedClusters@2022-05-02-preview"
+  name      = "webapprouting"
+  parent_id = azurerm_kubernetes_cluster.this.id
+
+  body = jsonencode({
+    properties = {
+      ingressProfile: {
+        webAppRouting: {
+          enabled: true
+        }
+      }
+    }
+  })
+}
+
+data "azurerm_user_assigned_identity" "web_app_routing" {
+  name                = "webapprouting-${local.aks_name}"
+  resource_group_name = azurerm_kubernetes_cluster.this.node_resource_group
 }
 
 data "azurerm_public_ip" "aks" {
