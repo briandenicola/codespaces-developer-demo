@@ -25,6 +25,9 @@ rm -rf ./skaffold
 # Update Kubelogin and kubectl
 sudo az aks install-cli
 
+# Add aks preview extensions
+az extension add --name aks-preview
+
 # update the base docker images
 docker pull bjd145/utils:3.9
 
