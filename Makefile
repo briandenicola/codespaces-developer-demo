@@ -1,36 +1,45 @@
-.PHONY: help all create creds manifests container
+.PHONY: help environment cluster creds refresh manifests skaffold
 
 help :
 	@echo "Usage:"
-	@echo "   make all              - create a cluster and deploy the apps "
+	@echo "   make environment      - create a cluster and deploy the apps "
 	@echo "   make cluster          - create a AKS cluster and gets credentials"
-	@echo "   make infrastructure   - updates infrastructure"
+	@echo "   make refresh		    - updates infrastructure"
 	@echo "   make delete           - delete the AKS cluster "
-	@echo "   make creds            - gets AKS credential files "
-	@echo "   make manifests        - generates application manifests "
-	@echo "   make container        - builds docker container "
+	@echo "   make creds            - updates AKS credential files "
+	@echo "   make manifests        - re-generates application manifests "
+	@echo "   make skaffold         - starts up skaffold "
 
-all : cluster creds container
+environment : cluster creds skaffold
 
 delete :
-	cd infrastructure &&  terraform destroy -auto-approve
+	cd infrastructure; terraform destroy -auto-approve
 	rm -rf infrastructure/.terraform* && rm -rf infrastructure/terraform.*
 
 cluster : infrastructure creds
 
-infrastructure :
-	cd infrastructure && terraform init && terraform apply -auto-approve
+infrastructure : 
+	cd infrastructure; terraform init; terraform apply -auto-approve
+
+refresh :
+	cd infrastructure; terraform apply -auto-approve
 
 creds : 
-	cd infrastructure && export RG=`terraform output AKS_RESOURCE_GROUP` && export AKS=`terraform output AKS_CLUSTER_NAME` && \
-	az aks get-credentials -g ${RG} -n ${AKS} &&  \
+	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP`; export AKS=`terraform output AKS_CLUSTER_NAME` ;\
+	az aks get-credentials -g $${RG} -n $${AKS} ;\
 	kubelogin convert-kubeconfig -l azurecli
 
 manifests :
-	cd src && draft create
+	cd src; draft create
 
-container : 
-	cd src && docker build -t ${ACR_NAME}/whatos:latest . && \
-	az acr login -n ${ACR_NAME} && \
-	docker push ${ACR_NAME}/whatos:latest && \
-	kubectl apply -k ./overlays/dev
+skaffold : 
+	cd infrastructure ;\ 
+	export SKAFFOLD_DEFAULT_REPO=`terraform output ACR_NAME | tr -d \"` ;\
+	export APPLICATION_URI=`terraform output APPLICATION_URI | tr -d \"` ;\
+	export CERTIFICATE_KV_URI=`terraform output CERTIFICATE_KV_URI | tr -d \"` ;\
+	export WORKLOAD_IDENTITY=`terraform output WORKLOAD_IDENTITY | tr -d \"` ;\
+	cd .. ;\
+	envsubst < skaffold/overlays/templates/service.tmpl > skaffold/overlays/dev-a/service.yaml ;\
+	envsubst < skaffold/overlays/templates/deployment.tmpl > skaffold/overlays/dev-a/deployment.yaml ;\
+	cd skaffold ;\
+	skaffold dev
