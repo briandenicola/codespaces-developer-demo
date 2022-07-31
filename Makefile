@@ -19,7 +19,9 @@ infra :
 	cd infrastructure; terraform init; terraform apply -auto-approve
 
 refresh :
-	cd infrastructure; terraform apply -auto-approve
+	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP | tr -d \"`; export AKS=`terraform output AKS_CLUSTER_NAME | tr -d \"` ;\
+	az aks update -g $${RG} -n $${AKS} --api-server-authorized-ip-ranges "";\
+	terraform apply -auto-approve
 
 creds : 
 	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP | tr -d \"`; export AKS=`terraform output AKS_CLUSTER_NAME | tr -d \"` ;\
