@@ -29,7 +29,10 @@ make environment
     make refresh
     ```
     * This will add the Codespaces IP addres to the ACLs for Azure Container Registry and to AKS
-* If you 
+* If you want to re-generate any deployment manifests, do:
+    ```bash
+    make manifests
+    ```
     * Please noote: draft will create an external load balancer in AKS which may or may not be allowed by policy. 
     * Sample Draft Answers:
         ```
