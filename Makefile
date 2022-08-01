@@ -33,7 +33,8 @@ manifests :
 	cd src; draft create
 
 skaffold : 
-	cd infrastructure; export SKAFFOLD_DEFAULT_REPO=`terraform output ACR_NAME | tr -d \"`; export APPLICATION_URI=`terraform output APPLICATION_URI | tr -d \"` ;\
+	cd infrastructure; export SKAFFOLD_DEFAULT_REPO=`terraform output ACR_NAME | tr -d \"` ;\
+	export APPLICATION_URI=`terraform output APPLICATION_URI | tr -d \"` ;\
 	export CERTIFICATE_KV_URI=`terraform output CERTIFICATE_KV_URI | tr -d \"` ;\
 	export WORKLOAD_IDENTITY=`terraform output WORKLOAD_IDENTITY | tr -d \"` ;\
 	cd .. ;\
