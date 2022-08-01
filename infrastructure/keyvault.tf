@@ -5,7 +5,7 @@ resource "azurerm_key_vault" "this" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = false
-  enable_rbac_authorization   = true
+  enable_rbac_authorization   = false
 
   sku_name = "standard"
 
@@ -13,12 +13,57 @@ resource "azurerm_key_vault" "this" {
     bypass                    = "AzureServices"
     default_action            = "Allow"
   }
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_user_assigned_identity.web_app_routing.principal_id
+
+    certificate_permissions = [
+      "Get",
+    ]
+
+    secret_permissions = [
+      "Get",
+    ]
+  }
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id 
+
+    certificate_permissions = [
+      "Get",
+      "Create",
+      "Backup",
+      "Delete",
+      "DeleteIssuers",
+      "GetIssuers",
+      "Import",
+      "List",
+      "ListIssuers",
+      "ManageContacts",
+      "ManageIssuers",
+      "Purge",
+      "Recover",
+      "Restore",
+      "SetIssuers",
+      "Update"
+    ]
+
+    secret_permissions = [
+      "Get",
+      "Get",
+      "List",
+      "Purge",
+      "Recover",
+      "Restore",
+      "Set"
+    ]
+  }
+
 }
 
 resource "azurerm_key_vault_certificate" "this" {
-  depends_on = [
-    azurerm_role_assignment.admin
-  ]
   name         = "developer-certificate"
   key_vault_id = azurerm_key_vault.this.id
 
