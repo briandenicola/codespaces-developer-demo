@@ -8,7 +8,7 @@ This repository is a demostration of AKS's Web Application Routing feature when 
 
 # Quicksteps
 ```bash
-az login
+az login --scope https://graph.microsoft.com/.default
 make environment
 ```
 
