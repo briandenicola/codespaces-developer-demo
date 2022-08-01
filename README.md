@@ -8,6 +8,7 @@ This repository is a demostration of AKS's Web Application Routing feature when 
 
 # Quicksteps
 ```bash
+az login
 make environment
 ```
 
