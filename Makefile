@@ -4,14 +4,14 @@ help :
 	@echo "Usage:"
 	@echo "   make environment      - create a cluster and deploy the apps "
 	@echo "   make refresh          - updates infrastructure"
-	@echo "   make delete           - delete the AKS cluster "
+	@echo "   make clean           	- delete the AKS cluster and cleans up"
 	@echo "   make creds            - updates AKS credential files "
 	@echo "   make manifests        - re-generates application manifests "
 	@echo "   make skaffold         - starts up skaffold "
 
-delete :
+clean :
 	cd infrastructure; terraform destroy -auto-approve
-	rm -rf infrastructure/.terraform* && rm -rf infrastructure/terraform.*
+	rm -rf infrastructure/.terraform.lock.hcl infrastructure/.terraform infrastructure/terraform.tfstate infrastructure/terraform.tfstate.backup
 
 environment: infra creds skaffold
 
