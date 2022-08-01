@@ -19,7 +19,7 @@ output "CERTIFICATE_KV_URI" {
 }
 
 output "APPLICATION_URI" {
-    value = "https://api.${local.resource_name}.local"
+    value = "api.${local.resource_name}.local"
     sensitive = false
 }
 
