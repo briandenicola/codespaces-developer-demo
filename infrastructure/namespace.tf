@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "whatos" {
   }
 }
 
-resource "kubernetes_service_account" "example" {
+resource "kubernetes_service_account" "whatos-workload-identity" {
   depends_on = [
     kubernetes_namespace.whatos
   ]
