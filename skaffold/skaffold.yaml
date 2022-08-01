@@ -11,7 +11,7 @@ deploy:
     defaultNamespace: whatos
 portForward:
 - resourceType: service
-  resourceName: whatos
+  resourceName: dev-whatos
   namespace: whatos
   port: 80
   localPort: 8081
