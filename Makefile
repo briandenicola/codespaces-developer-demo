@@ -10,7 +10,8 @@ help :
 	@echo "   make skaffold         - starts up skaffold "
 
 clean :
-	cd infrastructure; terraform destroy -auto-approve
+	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP | tr -d \"`;\
+	az group delete -n $${RG} --yes || true
 	rm -rf infrastructure/.terraform.lock.hcl infrastructure/.terraform infrastructure/terraform.tfstate infrastructure/terraform.tfstate.backup
 
 environment: infra creds skaffold
