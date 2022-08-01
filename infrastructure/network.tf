@@ -25,8 +25,8 @@ resource "azurerm_network_security_group" "this" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "443"
-    source_address_prefix      = "Any"
-    destination_address_prefix = "Any"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 }
 
