@@ -29,7 +29,7 @@ sudo az aks install-cli
 az extension add --name aks-preview
 
 # update the base docker images
-docker pull bjd145/utils:3.9
+docker pull bjd145/utils:3.8
 
 # Setup Bashrc 
 echo alias k='kubectl' >> ~/.bashrc
