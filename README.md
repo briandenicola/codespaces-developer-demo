@@ -48,8 +48,12 @@ make environment
             curl https://api.${random_pet}-${random_id}.local/api/os
         ```
 * Skaffold is also set for port-forwading so the service can be accessible over localhost as well
+
 # Backlog
 - [X] Workload identity deployment
 - [X] Developer namespace with OSM enabled 
 - [X] Update for Web Application Routing 
 - [ ] Update Documentation and examples
+
+# Issue
+- [ ] There is a current issue with Web Application Routing when using a custom Service Account
