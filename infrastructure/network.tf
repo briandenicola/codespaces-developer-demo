@@ -16,6 +16,18 @@ resource "azurerm_network_security_group" "this" {
   name                = "${local.resource_name}-nsg"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
+
+  security_rule {
+    name                       = "port_443"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    source_address_prefix      = "Any"
+    destination_address_prefix = "Any"
+  }
 }
 
 resource "azurerm_subnet_network_security_group_association" "this" {
