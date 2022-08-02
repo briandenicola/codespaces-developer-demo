@@ -8,7 +8,6 @@ help :
 	@echo "   make creds            - updates AKS credential files "
 	@echo "   make manifests        - re-generates application manifests "
 	@echo "   make skaffold         - starts up skaffold "
-	@echo "   make test         	- runs quick curl test "
 
 clean :
 	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP | tr -d \"` ;\
@@ -44,8 +43,3 @@ skaffold :
 	envsubst < skaffold/overlays/templates/deployment.tmpl > skaffold/overlays/dev-a/deployment.yaml ;\
 	cd skaffold ;\
 	skaffold dev
-
-test : 
-	cd infrastructure; export APPLICATION_URI=`terraform output APPLICATION_URI | tr -d \"` ;\
-	export APPLICATION_URI_IP=`kubectl -n app-routing-system get service nginx -o jsonpath={.status.loadBalancer.ingress[].ip}` ;\
-	curl -k -vv https://$${APPLICATION_URI_IP}/api/os -H "Host: $${APPLICATION_URI}"

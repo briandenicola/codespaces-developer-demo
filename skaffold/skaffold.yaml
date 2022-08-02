@@ -4,11 +4,21 @@ build:
   artifacts:
   - image: whatos
     context: ../src
+test:
+  - image: whatos
+    custom:
+      - command: ../tests/go-tests.sh
+        timeoutSeconds: 60
 deploy:
-  kustomize: 
+  statusCheckDeadlineSeconds: 120
+  kustomize:
     paths: 
     - overlays/dev-a
     defaultNamespace: whatos
+    hooks:
+      after:
+        - host:
+            command: ["bash", "-c", "../tests/curl-test.sh"]
 portForward:
 - resourceType: service
   resourceName: dev-whatos
