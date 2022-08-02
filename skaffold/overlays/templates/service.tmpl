@@ -5,3 +5,4 @@ metadata:
   annotations:
     kubernetes.azure.com/ingress-host: ${APPLICATION_URI}
     kubernetes.azure.com/tls-cert-keyvault-uri: ${CERTIFICATE_KV_URI}
+    kubernetes.azure.com/service-account-name: ${WORKLOAD_IDENTITY}

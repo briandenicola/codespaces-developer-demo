@@ -40,6 +40,6 @@ skaffold :
 	cd .. ;\
 	az acr login -n $${SKAFFOLD_DEFAULT_REPO} ;\
 	envsubst < skaffold/overlays/templates/service.tmpl > skaffold/overlays/dev-a/service.yaml ;\
-	#envsubst < skaffold/overlays/templates/deployment.tmpl > skaffold/overlays/dev-a/deployment.yaml ;\
+	envsubst < skaffold/overlays/templates/deployment.tmpl > skaffold/overlays/dev-a/deployment.yaml ;\
 	cd skaffold ;\
 	skaffold dev
