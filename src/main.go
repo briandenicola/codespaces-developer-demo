@@ -26,6 +26,11 @@ type KeepAlive struct {
 }
 
 type newAPIHandler struct { }
+func (eh *newAPIHandler) getHealthz(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	json.NewEncoder(w).Encode(KeepAlive{State: "I'm alive!"})
+}
+
 func (eh *newAPIHandler) getOperatingSystemHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	
@@ -50,13 +55,9 @@ func main() {
 
 	r := mux.NewRouter()
 	apirouter := r.PathPrefix("/api").Subrouter()
+	apirouter.Methods("GET").Path("/").HandlerFunc(handler.getHealthz)
 	apirouter.Methods("GET").Path("/os").HandlerFunc(handler.getOperatingSystemHandler)
 	apirouter.Methods("OPTIONS").Path("/os").HandlerFunc(handler.optionsHandler)
-
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		json.NewEncoder(w).Encode(KeepAlive{State: "I'm alive!"})
-	})
 
 	server := cors.Default().Handler(r)
 

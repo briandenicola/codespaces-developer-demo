@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# Unit tests - TBD
-echo go test are TBD
+cd ../src
+go test -v
