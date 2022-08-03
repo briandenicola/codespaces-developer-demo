@@ -39,7 +39,7 @@ skaffold :
 	export WORKLOAD_IDENTITY=`terraform output WORKLOAD_IDENTITY | tr -d \"` ;\
 	cd .. ;\
 	az acr login -n $${SKAFFOLD_DEFAULT_REPO} ;\
-	envsubst < skaffold/overlays/templates/service.tmpl > skaffold/overlays/dev-a/service.yaml ;\
-	envsubst < skaffold/overlays/templates/deployment.tmpl > skaffold/overlays/dev-a/deployment.yaml ;\
-	cd skaffold ;\
+	envsubst < manifests/overlays/templates/service.tmpl > manifests/overlays/dev-a/service.yaml ;\
+	envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev-a/deployment.yaml ;\
+	cd manifests ;\
 	skaffold dev
