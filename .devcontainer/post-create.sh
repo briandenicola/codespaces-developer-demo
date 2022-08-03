@@ -18,9 +18,9 @@ sudo install draft /usr/local/bin/
 rm -rf ./draft
 
 # Install skaffold
-curl -Lo /tmp/skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
-sudo install /tmp/skaffold /usr/local/bin/
-rm -rf /tmp/skaffold 
+curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+sudo install skaffold /usr/local/bin/
+rm -rf skaffold 
 
 # Update Kubelogin and kubectl
 sudo az aks install-cli
