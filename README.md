@@ -43,12 +43,12 @@ make environment
         ```
 
 # Validate 
+* Skaffold will automtically run Golang Unit test cases and a Custom curl Test on each build/deploy 
 * Web Applciation Routing will create an external load balancer and configure an Nginx ingress configured with a self signed certificate
     * The Uri will be in the form of https://api.${random_pet}-${random_id}.local.
-    * Add the hostname and IP to the /etc/host file 
-    * Then 
         ```bash
-            curl https://api.${random_pet}-${random_id}.local/api/os
+            cd tests
+            ./curl-tests.sh
         ```
 * Skaffold is also set for port-forwading so the service can be accessible over localhost as well
 
@@ -56,7 +56,7 @@ make environment
 - [X] Workload identity deployment
 - [X] Developer namespace with OSM enabled 
 - [X] Update for Web Application Routing 
-- [ ] Update Documentation and examples
+- [X] Update Documentation and examples
 
-# Issue
-- [ ] There is a current issue with Web Application Routing when using a custom Service Account
+# Issues
+- [X] There is a current issue with Web Application Routing when using a custom Service Account
