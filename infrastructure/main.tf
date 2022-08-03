@@ -30,8 +30,8 @@ resource "azurerm_resource_group" "this" {
   location = local.location
 
   tags = {
-    Application = "httpdemo"
-    Components  = "aks; flux"
+    Application = "whatos"
+    Components  = "aks; skaffold; keyvault"
     DeployedOn  = timestamp()
     Deployer    = data.azurerm_client_config.current.object_id
   }
