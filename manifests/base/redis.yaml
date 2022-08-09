@@ -2,15 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
+  labels:
+    service: redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: redis
+      service: redis
   template:
     metadata:
       labels:
-        component: redis
+        service: redis
     spec:
       containers:
         - name: redis
