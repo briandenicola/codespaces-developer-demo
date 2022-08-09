@@ -3,6 +3,16 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+.terraform/
+.terraform.tfstate.lock.info
+.terraform.lock.hcl 
+ terraform.tfstate 
+terraform.tfstate.backup 
+
+# Specific for product
+manifests/overlays/dev-a/deployment.yaml
+manifests/overlays/dev-a/service.yaml
+
 # User-specific files
 *.rsuser
 *.suo
