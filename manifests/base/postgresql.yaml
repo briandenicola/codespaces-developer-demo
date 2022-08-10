@@ -1,9 +1,14 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
+  labels:
+    service: postgres
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      service: postgres
   template:
     metadata:
       labels:
