@@ -9,39 +9,38 @@ import (
 )
 
 func TestGetHealthz(t *testing.T) {
+
+	router := setupRouter()
+
+	rr := httptest.NewRecorder()
 	req, err := http.NewRequest("GET", "/", nil)
+	router.ServeHTTP(rr, req)
+
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	rr := httptest.NewRecorder()
-	api := newAPIHandler{}
-	
-	handler := http.HandlerFunc(api.getHealthz)
-	handler.ServeHTTP(rr, req)
 	
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
 	}
 
-	expected := `{"state":"I'm alive!"}`
+	expected := `{"State":"I'm alive!"}`
 	if strings.TrimSpace(rr.Body.String()) != strings.TrimSpace(expected) {
 		t.Errorf("handler returned unexpected body: got '%v' want '%v'", rr.Body.String(), expected)
 	}
 }
 
 func TestGetOperatingSystemHandler(t *testing.T) {
+	router := setupRouter()
+
+	rr := httptest.NewRecorder()
 	req, err := http.NewRequest("GET", "/api/os", nil)
+	router.ServeHTTP(rr, req)
+
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	rr := httptest.NewRecorder()
-	api := newAPIHandler{}
-	
-	handler := http.HandlerFunc(api.getOperatingSystemHandler)
-	handler.ServeHTTP(rr, req)
 	
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
