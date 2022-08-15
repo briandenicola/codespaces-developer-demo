@@ -28,7 +28,8 @@
 			},
 			
 			"extensions": [
-				"golang.Go"
+				"golang.Go",
+				"GitHub.copilot"
 			]
 		}
 	},
