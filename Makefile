@@ -1,5 +1,7 @@
 .PHONY: help environment cluster creds refresh manifests skaffold
 
+include ./scripts/setup-env.sh
+
 help :
 	@echo "Usage:"
 	@echo "   make environment      - create a cluster and deploy the apps "
@@ -10,22 +12,23 @@ help :
 	@echo "   make skaffold         - starts up skaffold "
 
 clean :
-	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP | tr -d \"` ;\
+	cd infrastructure ;\
 	rm -rf .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info ;\
 	az group delete -n $${RG} --yes || true
 
 environment: infra creds skaffold
 
 infra : 
-	cd infrastructure; terraform init; terraform apply -auto-approve
+	cd infrastructure ;\
+	terraform init; terraform apply -auto-approve
 
 refresh :
-	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP | tr -d \"`; export AKS=`terraform output AKS_CLUSTER_NAME | tr -d \"` ;\
+	cd infrastructure ;\
 	az aks update -g $${RG} -n $${AKS} --api-server-authorized-ip-ranges "";\
 	terraform apply -auto-approve
 
 creds : 
-	cd infrastructure; export RG=`terraform output AKS_RESOURCE_GROUP | tr -d \"`; export AKS=`terraform output AKS_CLUSTER_NAME | tr -d \"` ;\
+	cd infrastructure ;\
 	az aks get-credentials -g $${RG} -n $${AKS} ;\
 	kubelogin convert-kubeconfig -l azurecli
 
@@ -33,11 +36,6 @@ manifests :
 	cd src; draft create
 
 skaffold : 
-	cd infrastructure; export SKAFFOLD_DEFAULT_REPO=`terraform output ACR_NAME | tr -d \"` ;\
-	export APPLICATION_URI=`terraform output APPLICATION_URI | tr -d \"` ;\
-	export CERTIFICATE_KV_URI=`terraform output CERTIFICATE_KV_URI | tr -d \"` ;\
-	export WORKLOAD_IDENTITY=`terraform output WORKLOAD_IDENTITY | tr -d \"` ;\
-	cd .. ;\
 	az acr login -n $${SKAFFOLD_DEFAULT_REPO} ;\
 	envsubst < manifests/overlays/templates/service.tmpl > manifests/overlays/dev-a/service.yaml ;\
 	envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev-a/deployment.yaml ;\
