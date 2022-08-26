@@ -10,22 +10,21 @@ help :
 	@echo "   make skaffold         - starts up skaffold "
 
 clean :
-	cd infrastructure ;\
 	export RG=`terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP` ;\
+	cd infrastructure ;\
 	rm -rf .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info ;\
 	az group delete -n $${RG} --yes || true
 
 environment: infra creds skaffold
 
 infra : 
-	cd infrastructure; terraform init; terraform apply -auto-approve
+	terraform -chdir=./infrastructure init; terraform -chdir=./infrastructure apply -auto-approve
 
 refresh :
-	cd infrastructure ;\
 	export RG=`terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP` ;\
 	export AKS=`terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME` ;\
 	az aks update -g $${RG} -n $${AKS} --api-server-authorized-ip-ranges "";\
-	terraform apply -auto-approve
+	terraform -chdir=./infrastructure apply -auto-approve
 
 creds : 
 	export RG=`terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP` ;\
