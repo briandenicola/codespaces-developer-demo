@@ -1,0 +1,53 @@
+name: Whatos CI/CD
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+    - main
+    paths: 
+    - 'src/*'
+
+jobs:
+  build:
+    runs-on: self-hosted
+    env:
+      CONTAINER_NAME: whatos
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        shell: bash
+        run: |
+          cd src
+          az acr login -n ${{ secrets.ACR_NAME }}
+          docker build -t ${{ secrets.ACR_NAME }}/${{ env.CONTAINER_NAME }}:${{ github.sha }} .
+          docker push ${{ secrets.ACR_NAME }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Kustomize 
+        shell: bash
+        run: |
+          az aks get-credentials -n ${{ secrets.AKS_NAME }} -g ${{ secrets.RG_NAME }} --overwrite-existing
+          kubelogin convert-kubeconfig -l azurecli 
+
+          cd manifests/overlays/production
+          kustomize edit set image whatos=${{ secrets.ACR_NAME }}/whatos:${{ github.sha }}
+          kubectl kustomize | kubectl apply -f-            
+            
+
