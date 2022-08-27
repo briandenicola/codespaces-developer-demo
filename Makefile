@@ -1,7 +1,5 @@
 .PHONY: help environment cluster creds refresh manifests skaffold
 
-include ./scripts/setup-env.sh
-
 help :
 	@echo "Usage:"
 	@echo "   make environment      - create a cluster and deploy the apps "
@@ -12,6 +10,7 @@ help :
 	@echo "   make skaffold         - starts up skaffold "
 
 clean :
+	export RG=`terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP` ;\
 	cd infrastructure ;\
 	rm -rf .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info ;\
 	az group delete -n $${RG} --yes || true
@@ -19,23 +18,28 @@ clean :
 environment: infra creds skaffold
 
 infra : 
-	cd infrastructure ;\
-	terraform init; terraform apply -auto-approve
+	terraform -chdir=./infrastructure init; terraform -chdir=./infrastructure apply -auto-approve
 
 refresh :
-	cd infrastructure ;\
+	export RG=`terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP` ;\
+	export AKS=`terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME` ;\
 	az aks update -g $${RG} -n $${AKS} --api-server-authorized-ip-ranges "";\
-	terraform apply -auto-approve
+	terraform -chdir=./infrastructure apply -auto-approve
 
 creds : 
-	cd infrastructure ;\
+	export RG=`terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP` ;\
+	export AKS=`terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME` ;\
 	az aks get-credentials -g $${RG} -n $${AKS} ;\
 	kubelogin convert-kubeconfig -l azurecli
 
 manifests :
 	cd src; draft create
 
-skaffold : 
+skaffold :
+	export SKAFFOLD_DEFAULT_REPO=`terraform -chdir=./infrastructure output -raw ACR_NAME` ;\
+	export APPLICATION_URI=`terraform -chdir=./infrastructure output -raw APPLICATION_URI` ;\
+	export CERTIFICATE_KV_URI=`terraform -chdir=./infrastructure output -raw CERTIFICATE_KV_URI` ;\
+	export WORKLOAD_IDENTITY=`terraform -chdir=./infrastructure output -raw WORKLOAD_IDENTITY` ;\
 	az acr login -n $${SKAFFOLD_DEFAULT_REPO} ;\
 	envsubst < manifests/overlays/templates/service.tmpl > manifests/overlays/dev-a/service.yaml ;\
 	envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev-a/deployment.yaml ;\
