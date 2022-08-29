@@ -48,6 +48,7 @@ jobs:
 
           cd manifests/overlays/production
           kustomize edit set image whatos=${{ secrets.ACR_NAME }}/whatos:${{ github.sha }}
-          kubectl kustomize | kubectl apply -f-            
+          kubectl create ns whatos || true
+          kubectl kustomize | kubectl --namespace whatos apply -f-            
             
 
