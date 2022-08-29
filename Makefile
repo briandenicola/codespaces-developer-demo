@@ -3,8 +3,8 @@
 help :
 	@echo "Usage:"
 	@echo "   make environment      - create a cluster and deploy the apps "
-	@echo "   make refresh          - updates infrastructure"
-	@echo "   make clean           	- delete the AKS cluster and cleans up"
+	@echo "   make refresh          - updates infrastructure "
+	@echo "   make clean            - delete the AKS cluster and cleans up "
 	@echo "   make creds            - updates AKS credential files "
 	@echo "   make manifests        - re-generates application manifests "
 	@echo "   make skaffold         - starts up skaffold "
