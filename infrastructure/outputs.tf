@@ -13,6 +13,10 @@ output "ACR_NAME" {
     sensitive = false
 }
 
+output "primary_access_key" {
+  value = data.azurerm_redis_cache.example.primary_access_key
+}
+
 output "CERTIFICATE_KV_URI" {
     value = "${azurerm_key_vault_certificate.this.versionless_id}/${azurerm_key_vault_certificate.this.version}"
     sensitive = false
@@ -27,3 +31,4 @@ output "WORKLOAD_IDENTITY" {
     value = azuread_application.this.display_name
     sensitive = false
 }
+

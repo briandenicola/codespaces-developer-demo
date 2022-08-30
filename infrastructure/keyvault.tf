@@ -64,6 +64,12 @@ resource "azurerm_key_vault" "this" {
 
 }
 
+resource "azurerm_key_vault_secret" "redis" {
+  name         = "redis"
+  key_vault_id = azurerm_key_vault.this.id
+  value        = azurerm_redis_cache.this.primary_connection_string
+}
+
 resource "azurerm_key_vault_certificate" "this" {
   name         = "developer-certificate"
   key_vault_id = azurerm_key_vault.this.id
