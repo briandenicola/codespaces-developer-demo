@@ -7,7 +7,7 @@ build:
 test:
   - image: whatos
     custom:
-      - command: ../tests/go-tests.sh
+      - command: ../scripts/unit-tests.sh
         timeoutSeconds: 60
 deploy:
   statusCheckDeadlineSeconds: 120
@@ -18,7 +18,7 @@ deploy:
     hooks:
       after:
         - host:
-            command: ["bash", "-c", "../tests/curl-test.sh"]
+            command: ["bash", "-c", "../scripts/network-tests.sh"]
 portForward:
 - resourceType: service
   resourceName: dev-whatos
