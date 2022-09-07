@@ -7,5 +7,3 @@ export APPLICATION_URI_IP=`kubectl -n app-routing-system get service nginx -o js
 
 echo Testing ${APPLICATION_URI} at ${APPLICATION_URI_IP}:443
 curl -k https://${APPLICATION_URI_IP}/api/os -H "Host: ${APPLICATION_URI}"
-
-# TBD - Add playwright test suite
