@@ -22,6 +22,9 @@ curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffo
 sudo install skaffold /usr/local/bin/
 rm -rf skaffold 
 
+# Install Playwright
+npm install -g playwright@latest
+
 # Update Kubelogin and kubectl
 sudo az aks install-cli
 
