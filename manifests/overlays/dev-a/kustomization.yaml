@@ -1,6 +1,7 @@
 namePrefix: dev-
 resources:
   - ../../base
+  - redis.yaml
 patchesStrategicMerge:
   - deployment.yaml
   - service.yaml
