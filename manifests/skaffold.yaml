@@ -18,7 +18,7 @@ deploy:
     hooks:
       after:
         - host:
-            command: ["bash", "-c", "../scripts/network-tests.sh"]
+            command: ["bash", "-c", "../scripts/playwright-tests.sh"]
 portForward:
 - resourceType: service
   resourceName: dev-whatos
