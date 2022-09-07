@@ -9,6 +9,10 @@
 terraform.tfstate 
 terraform.tfstate.backup 
 
+#NPM 
+package-lock.json
+node_modules
+
 # Specific for product
 manifests/overlays/dev-a/deployment.yaml
 manifests/overlays/dev-a/service.yaml
