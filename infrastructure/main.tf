@@ -22,8 +22,8 @@ locals {
   location        = "southcentralus"
   resource_name   = "${random_pet.this.id}-${random_id.this.dec}"
   aks_name        = "${local.resource_name}-aks"
-  acr_name        = "acr${random_pet.this.id}${random_id.this.dec}"
-  redis_name      = "${random_pet.this.id}${random_id.this.dec}cache"
+  acr_name        = "${random_pet.this.id}${random_id.this.dec}acr"
+  redis_name      = "${random_pet.this.id}${random_id.this.dec}-cache"
 }
 
 resource "azurerm_resource_group" "this" {
