@@ -24,6 +24,7 @@ rm -rf skaffold
 
 # Install Playwright
 npm install -g playwright@latest
+npx playwright install-deps
 
 # Update Kubelogin and kubectl
 sudo az aks install-cli
