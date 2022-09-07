@@ -14,7 +14,7 @@ output "ACR_NAME" {
 }
 
 output "primary_access_key" {
-  value = data.azurerm_redis_cache.example.primary_access_key
+  value = azurerm_redis_cache.this.primary_access_key
 }
 
 output "CERTIFICATE_KV_URI" {
