@@ -46,8 +46,8 @@ make environment
 * Web Applciation Routing will create an external load balancer and configure an Nginx ingress configured with a self signed certificate
     * The Uri will be in the form of https://api.${random_pet}-${random_id}.local.
         ```bash
-            cd tests
-            ./curl-tests.sh
+            cd scripts
+            ./network-tests.sh
         ```
 * Skaffold is also set for port-forwading so the service can be accessible over localhost as well
 
