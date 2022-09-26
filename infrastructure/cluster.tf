@@ -1,3 +1,7 @@
+data "azurerm_kubernetes_service_versions" "current" {
+  location = azurerm_resource_group.this.location
+}
+
 resource "azurerm_kubernetes_cluster" "this" {
   lifecycle {
     ignore_changes = [
@@ -10,6 +14,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   location                          = azurerm_resource_group.this.location
   node_resource_group               = "${local.resource_name}_k8s_nodes_rg"
   dns_prefix                        = local.aks_name
+  kubernetes_version                = data.azurerm_kubernetes_service_versions.current.latest_version
   sku_tier                          = "Free"
   oidc_issuer_enabled               = true
   open_service_mesh_enabled         = true
