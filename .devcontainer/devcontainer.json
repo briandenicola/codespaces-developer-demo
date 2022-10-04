@@ -30,6 +30,11 @@
 			
 			"extensions": [
 				"golang.Go",
+				"mindaro.mindaro",
+				"ms-kubernetes-tools.aks-devx-tools",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"ms-vscode.azure-account",
+				"github.vscode-pull-request-github",
 				"GitHub.copilot"
 			]
 		}
