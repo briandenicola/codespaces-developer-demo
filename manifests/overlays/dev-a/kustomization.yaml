@@ -1,7 +1,7 @@
 namePrefix: dev-
 resources:
   - ../../base
+  - ingress.yaml
   - redis.yaml
 patchesStrategicMerge:
   - deployment.yaml
-  - service.yaml

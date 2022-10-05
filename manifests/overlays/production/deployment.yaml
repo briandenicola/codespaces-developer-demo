@@ -6,7 +6,7 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: what-os-identity 
+      serviceAccountName: whatos-prod-sa-identity 
       containers:
         - name: whatos
           image: whatos

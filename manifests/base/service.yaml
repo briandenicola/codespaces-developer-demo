@@ -3,10 +3,6 @@ kind: Service
 metadata:
   name: whatos
   namespace: whatos
-  annotations:
-    kubernetes.azure.com/ingress-host: http://contoso.com
-    kubernetes.azure.com/tls-cert-keyvault-uri: https://keyvault.azure.net/secrets/contoso-certificate/
-    kubernetes.azure.com/service-account-name: default
 spec:
   type: ClusterIP
   selector:

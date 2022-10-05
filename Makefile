@@ -48,12 +48,14 @@ federation :
   		--subject system:serviceaccount:whatos:$${SERVICE_ACCOUNT_NAME}
 
 skaffold :
+	export ENVIRONMENT=dev ;\
 	export SKAFFOLD_DEFAULT_REPO=`terraform -chdir=./infrastructure output -raw ACR_NAME` ;\
 	export APPLICATION_URI=`terraform -chdir=./infrastructure output -raw APPLICATION_URI` ;\
 	export CERTIFICATE_KV_URI=`terraform -chdir=./infrastructure output -raw CERTIFICATE_KV_URI` ;\
 	export WORKLOAD_IDENTITY=`terraform -chdir=./infrastructure output -raw WORKLOAD_IDENTITY` ;\
+	export SERVICE_NAME=$${ENVIRONMENT}-whatos ;\
 	az acr login -n $${SKAFFOLD_DEFAULT_REPO} ;\
-	envsubst < manifests/overlays/templates/service.tmpl > manifests/overlays/dev-a/service.yaml ;\
+	envsubst < manifests/overlays/templates/ingress.tmpl > manifests/overlays/dev-a/ingress.yaml ;\
 	envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev-a/deployment.yaml ;\
 	cd manifests ;\
-	skaffold dev
+	skaffold $${ENVIRONMENT}
