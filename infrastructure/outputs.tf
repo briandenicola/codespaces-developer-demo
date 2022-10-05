@@ -24,7 +24,7 @@ output "APPLICATION_URI" {
 }
 
 output "WORKLOAD_IDENTITY" {
-    value = azurerm_user_assigned_identity.whatos_service_account_identity.client_id
+    value = azurerm_user_assigned_identity.whatos_service_account_identity.name
     sensitive = false
 }
 
