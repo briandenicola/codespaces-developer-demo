@@ -29,7 +29,7 @@ refresh :
 creds : 
 	export RG=`terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP` ;\
 	export AKS=`terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME` ;\
-	az aks get-credentials -g $${RG} -n $${AKS} ;\
+	az aks get-credentials -g $${RG} -n $${AKS} --overwrite-existing;\
 	kubelogin convert-kubeconfig -l azurecli
 
 manifests :
