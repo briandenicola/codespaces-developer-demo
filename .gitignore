@@ -16,6 +16,7 @@ node_modules
 # Specific for product
 manifests/overlays/dev-a/deployment.yaml
 manifests/overlays/dev-a/service.yaml
+manifests/overlays/dev-a/ingress.yaml
 
 # User-specific files
 *.rsuser
