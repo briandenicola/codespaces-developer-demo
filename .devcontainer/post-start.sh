@@ -8,5 +8,6 @@ echo "$(date)    post-start start" >> ~/status
 #make cluster
 
 az extension update --name aks-preview
+echo -e "\e[34m»»» 💡 \e[32mVersion details: \e[39m$(az --version)" 
 
 echo "$(date)    post-start complete" >> ~/status
