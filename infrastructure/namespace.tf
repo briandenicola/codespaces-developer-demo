@@ -21,7 +21,7 @@ resource "kubernetes_service_account" "whatos-workload-identity" {
     name      = "${local.resource_name}-sa-identity"
     namespace = "whatos"
     annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.whatos_service_account_identity.id
+      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.whatos_service_account_identity.client_id
       "azure.workload.identity/tenant-id" = data.azurerm_client_config.current.tenant_id
     }
     labels      = {
