@@ -58,4 +58,4 @@ skaffold :
 	envsubst < manifests/overlays/templates/ingress.tmpl > manifests/overlays/dev-a/ingress.yaml ;\
 	envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev-a/deployment.yaml ;\
 	cd manifests ;\
-	skaffold $${ENVIRONMENT}
+	skaffold run

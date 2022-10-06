@@ -8,30 +8,32 @@ This repository is a demostration of AKS's Web Application Routing feature when 
 
 # Quicksteps
 ```bash
-az login --scope https://graph.microsoft.com/.default
-make environment
+    az login --scope https://graph.microsoft.com/.default
+    make environment
 ```
 
 ## Notes
 * This will create an AKS cluster and deploy code to it using Skaffold.
-* Afterwards, skaffold will continue to monitor any changes to the kustomize deployment manifests or to the application source code.
-* To try:
-    * Modify the line in main.go and watch the change get automatically push to the cluster
-        ```golang 
+* skaffold can be configured to continuously monitor for any code changes. 
+    * This will also open a port-forward from the kubernetes cluster to your local browser.
+    * To test:
+    ```golang
+        source ./scripts/setup-env.sh
+        cd manifests
+        skaffold dev
+        //Modify a line in main.go and watch the change get automatically push to the cluster
             var version string = "v1"
-        ```
-        to 
-        ```golang 
+        //to 
             var version string = "v1.1"
-        ```
+    ```
 * If you are using Codespaces, then after a restart, do:
     ```bash
-    make refresh
+        make refresh
     ```
     * This will add the Codespaces IP addres to the ACLs for Azure Container Registry, Key Vault and AKS
 * If you want to re-generate any deployment manifests, do:
     ```bash
-    make manifests
+        make manifests
     ```
     * Sample Draft Answers:
         ```
