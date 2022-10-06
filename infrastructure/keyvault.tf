@@ -105,11 +105,11 @@ resource "azurerm_key_vault_certificate" "this" {
 
       subject_alternative_names {
         dns_names = [
-            "*.${local.resource_name}.local"
+            "api.${local.resource_name}.local"
         ]
       }
 
-      subject            = "CN=*.${local.resource_name}.local"
+      subject            = "CN=api.${local.resource_name}.local"
       validity_in_months = 12
     }
   }
