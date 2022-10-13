@@ -35,7 +35,8 @@
 				"ms-kubernetes-tools.vscode-kubernetes-tools",
 				"ms-vscode.azure-account",
 				"github.vscode-pull-request-github",
-				"GitHub.copilot"
+				"GitHub.copilot",
+				"cweijan.vscode-redis-client"
 			]
 		}
 	},
