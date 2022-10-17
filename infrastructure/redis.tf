@@ -20,8 +20,8 @@ resource "azurerm_redis_firewall_rule" "codespaces" {
   name                = "codespaces"
   redis_cache_name    = azurerm_redis_cache.this[count.index].name
   resource_group_name = azurerm_resource_group.this.name
-  start_ip            = chomp(data.http.myip.body)
-  end_ip              = chomp(data.http.myip.body)
+  start_ip            = chomp(data.http.myip.response_body)
+  end_ip              = chomp(data.http.myip.response_body)
 }
 
 resource "azurerm_redis_firewall_rule" "aks" {

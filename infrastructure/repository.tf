@@ -11,7 +11,7 @@ resource "azurerm_container_registry" "this" {
     default_action = "Deny"
     ip_rule {
       action   = "Allow"
-      ip_range = "${chomp(data.http.myip.body)}"
+      ip_range = "${chomp(data.http.myip.response_body)}"
     }
     ip_rule {
       action   = "Allow"
