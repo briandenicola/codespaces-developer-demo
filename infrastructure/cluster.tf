@@ -20,6 +20,8 @@ resource "azurerm_kubernetes_cluster" "this" {
   workload_identity_enabled         = true
   open_service_mesh_enabled         = true
   azure_policy_enabled              = true
+  local_account_disabled            = true
+  role_based_access_control_enabled = true
   automatic_channel_upgrade         = "patch"
   api_server_authorized_ip_ranges   = ["${chomp(data.http.myip.response_body)}/32"]
 
@@ -47,11 +49,15 @@ resource "azurerm_kubernetes_cluster" "this" {
     vm_size             = "Standard_DS4_v2"
     os_disk_size_gb     = 30
     vnet_subnet_id      = azurerm_subnet.this.id
+    os_sku              = "CBLMariner"
     type                = "VirtualMachineScaleSets"
     enable_auto_scaling = true
     min_count           = 1
     max_count           = 3
     max_pods            = 40
+    upgrade_settings {
+      max_surge             = "25%"
+    }
   }
 
   network_profile {
