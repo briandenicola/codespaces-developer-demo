@@ -43,14 +43,14 @@ resource "azurerm_kubernetes_cluster" "this" {
 
   default_node_pool {
     name                = "default"
-    node_count          = 2
+    node_count          = 1
     vm_size             = "Standard_DS4_v2"
     os_disk_size_gb     = 30
     vnet_subnet_id      = azurerm_subnet.this.id
     type                = "VirtualMachineScaleSets"
     enable_auto_scaling = true
     min_count           = 1
-    max_count           = 2
+    max_count           = 3
     max_pods            = 40
   }
 
@@ -96,19 +96,8 @@ resource "azapi_update_resource" "this" {
   })
 }
 
-/*
-resource "null_resource" "web_app_routing_install" {
-  depends_on = [
-    azurerm_kubernetes_cluster.this
-  ]
-  provisioner "local-exec" {
-    command = "az aks enable-addons --resource-group ${azurerm_resource_group.this.name} --name ${local.aks_name} --addons web_application_routing"
-  }
-}*/
-
 data "azurerm_user_assigned_identity" "web_app_routing" {
   depends_on = [
-    //null_resource.web_app_routing_install
     azapi_update_resource.this
   ]
   name                = "webapprouting-${local.aks_name}"
