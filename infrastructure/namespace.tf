@@ -1,6 +1,6 @@
 resource "kubernetes_namespace" "whatos" {
   depends_on = [
-    azapi_update_resource.this
+    null_resource.web_app_routing_install
   ]
   metadata {
     name = "whatos"

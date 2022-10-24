@@ -17,8 +17,10 @@ resource "azurerm_kubernetes_cluster" "this" {
   kubernetes_version                = data.azurerm_kubernetes_service_versions.current.latest_version
   sku_tier                          = "Free"
   oidc_issuer_enabled               = true
+  workload_identity_enabled         = true
   open_service_mesh_enabled         = true
   azure_policy_enabled              = true
+  automatic_channel_upgrade         = "Patch"
   api_server_authorized_ip_ranges   = ["${chomp(data.http.myip.response_body)}/32"]
 
   azure_active_directory_role_based_access_control {
@@ -75,28 +77,10 @@ resource "azurerm_kubernetes_cluster" "this" {
 
 }
 
-resource "azapi_update_resource" "this" {
-  depends_on = [
-    azurerm_kubernetes_cluster.this
-  ]
-
-  type        = "Microsoft.ContainerService/managedClusters@2022-09-02-preview"
-  resource_id = azurerm_kubernetes_cluster.this.id
-
-  body = jsonencode({
-    properties = {
-      securityProfile = {
-        workloadIdentity = {
-          enabled = true
-        }
-      }
-    }
-  })
-}
 
 resource "null_resource" "web_app_routing_install" {
   depends_on = [
-    azapi_update_resource.this  
+    azurerm_kubernetes_cluster.this
   ]
   provisioner "local-exec" {
     command = "az aks enable-addons --resource-group ${azurerm_resource_group.this.name} --name ${local.aks_name} --addons web_application_routing"

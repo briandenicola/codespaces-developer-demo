@@ -34,6 +34,7 @@ locals {
   aks_name        = "${local.resource_name}-aks"
   acr_name        = "${random_pet.this.id}${random_id.this.dec}acr"
   redis_name      = "${random_pet.this.id}${random_id.this.dec}-cache"
+  workload_id     = "${local.resource_name}-sa-identity"
   vnet_cidr       = cidrsubnet("10.0.0.0/8", 8, random_integer.vnet_cidr.result)
   subnet_cidir    = cidrsubnet(local.vnet_cidr, 8, 2)
 }
