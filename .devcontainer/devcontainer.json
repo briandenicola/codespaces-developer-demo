@@ -36,7 +36,8 @@
 				"ms-vscode.azure-account",
 				"github.vscode-pull-request-github",
 				"GitHub.copilot",
-				"cweijan.vscode-redis-client"
+				"cweijan.vscode-redis-client",
+				"mindaro.mindaro"
 			]
 		}
 	},
