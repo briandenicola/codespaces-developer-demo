@@ -22,6 +22,9 @@ curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffo
 sudo install skaffold /usr/local/bin/
 rm -rf skaffold 
 
+# Install kubevela
+sudo curl -fsSl https://kubevela.net/script/install.sh | bash
+
 # Install Playwright
 npm install -g playwright@latest
 npx playwright install-deps
