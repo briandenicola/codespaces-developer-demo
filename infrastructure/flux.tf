@@ -39,7 +39,7 @@ resource "azapi_resource" "flux_config" {
         }
       }
       kustomizations : {
-        cluster-config = {
+        cluster-addons = {
           path                   = local.cluster_path
           dependsOn              = []
           timeoutInSeconds       = 600
