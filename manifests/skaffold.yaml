@@ -13,7 +13,7 @@ deploy:
   statusCheckDeadlineSeconds: 120
   kustomize:
     paths: 
-    - overlays/dev-a
+    - overlays/dev
     defaultNamespace: whatos
     hooks:
       after:

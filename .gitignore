@@ -14,9 +14,9 @@ package-lock.json
 node_modules
 
 # Specific for product
-manifests/overlays/dev-a/deployment.yaml
-manifests/overlays/dev-a/service.yaml
-manifests/overlays/dev-a/ingress.yaml
+manifests/overlays/dev/deployment.yaml
+manifests/overlays/dev/service.yaml
+manifests/overlays/dev/ingress.yaml
 
 # User-specific files
 *.rsuser

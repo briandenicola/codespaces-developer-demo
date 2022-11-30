@@ -43,7 +43,7 @@ skaffold :
 	export WORKLOAD_IDENTITY=`terraform -chdir=./infrastructure output -raw WORKLOAD_IDENTITY` ;\
 	export SERVICE_NAME=$${ENVIRONMENT}-whatos ;\
 	az acr login -n $${SKAFFOLD_DEFAULT_REPO} ;\
-	envsubst < manifests/overlays/templates/ingress.tmpl > manifests/overlays/dev-a/ingress.yaml ;\
-	envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev-a/deployment.yaml ;\
+	envsubst < manifests/overlays/templates/ingress.tmpl > manifests/overlays/dev/ingress.yaml ;\
+	envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev/deployment.yaml ;\
 	cd manifests ;\
 	skaffold run
