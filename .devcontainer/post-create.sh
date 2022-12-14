@@ -7,6 +7,13 @@ echo "$(date)    post-create start" >> ~/status
 # Install buildpacks
 (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.27.0/pack-v0.27.0-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
 
+# Install Helm
+curl -fsS "https://get.helm.sh/helm-v3.10.2-linux-amd64.tar.gz" -o /tmp/helm.tar.gz
+tar -zxf /tmp/helm.tar.gz -C /tmp linux-amd64/helm
+sudo mv /tmp/linux-amd64/helm /usr/local/bin
+rm -f /tmp/helm.tar.gz
+rm -rf /tmp/linux-amd64
+
 # Install envsubst 
 curl -Lso envsubst https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-Linux-x86_64
 sudo install envsubst /usr/local/bin
