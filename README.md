@@ -1,6 +1,6 @@
 # Overview
 
-This repository is a demostration how to use GitHub CodeSpaces customized with DevContainers for modern application development. It leverages AKS plus its Web Application Routing feature and Skaffold. 
+This repository is a demostration on how to use GitHub CodeSpaces customized with DevContainers for modern application development. It leverages AKS plus its Web Application Routing feature and Skaffold. 
 
 * [Web Application Routing](https://docs.microsoft.com/en-us/azure/aks/web-app-routing) is a developer tool that makes it easier for developers to create dev environments accessible for TLS.  
 * [Skaffold](https://skaffold.dev/docs/) is a continous deployment tool used by developers to automate pushing changes to a Kubernetes cluster.  
