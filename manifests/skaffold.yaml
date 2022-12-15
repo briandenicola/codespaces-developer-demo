@@ -1,27 +1,29 @@
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v3
 kind: Config
 build:
   artifacts:
-  - image: whatos
-    context: ../src
+    - image: whatos
+      context: ../src
 test:
   - image: whatos
     custom:
       - command: ../scripts/unit-tests.sh
         timeoutSeconds: 60
+manifests:
+  kustomize:
+    paths:
+      - overlays/dev
 deploy:
   statusCheckDeadlineSeconds: 120
-  kustomize:
-    paths: 
-    - overlays/dev
+  kubectl:
     defaultNamespace: whatos
     hooks:
       after:
         - host:
             command: ["bash", "-c", "../scripts/playwright-tests.sh"]
 portForward:
-- resourceType: service
-  resourceName: dev-whatos
-  namespace: whatos
-  port: 8081
-  localPort: 8081
+  - resourceType: service
+    resourceName: dev-whatos
+    namespace: whatos
+    port: 8081
+    localPort: 8081
