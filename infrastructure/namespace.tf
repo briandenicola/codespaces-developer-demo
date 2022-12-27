@@ -28,5 +28,14 @@ resource "kubernetes_service_account" "whatos-workload-identity" {
       "azure.workload.identity/use"       = "true"
     } 
   }
+  secret {
+    name = "${kubernetes_secret.whatos-workload-sa-identity.metadata.0.name}"
+  }
 }
 
+resource "kubernetes_secret" "whatos-workload-sa-identity" {
+  metadata {
+    name      = "whatos-workload-sa-identity"
+    namespace = "whatos"
+  }
+}
