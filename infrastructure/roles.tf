@@ -30,3 +30,10 @@ resource "azurerm_role_assignment" "kubelet_acr_pull" {
   principal_id         = azurerm_user_assigned_identity.aks_kubelet_identity.principal_id
   skip_service_principal_aad_check = true
 }
+
+resource "azurerm_role_assignment" "dns_web_app_routing" {
+  scope                = azurerm_resource_group.this.id
+  role_definition_name = "DNS Zone Contributor"
+  principal_id         = data.azurerm_user_assigned_identity.web_app_routing.principal_id
+  skip_service_principal_aad_check = true 
+}

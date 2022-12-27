@@ -1,6 +1,6 @@
 resource "kubernetes_namespace" "whatos" {
   depends_on = [
-    azapi_update_resource.this
+    azurerm_kubernetes_cluster.this
   ]
   metadata {
     name = "whatos"

@@ -8,7 +8,7 @@ resource "azurerm_kubernetes_cluster" "this" {
       default_node_pool.0.node_count,
     ]
   }
-
+  
   name                              = local.aks_name
   resource_group_name               = azurerm_resource_group.this.name
   location                          = azurerm_resource_group.this.location
@@ -81,30 +81,15 @@ resource "azurerm_kubernetes_cluster" "this" {
     secret_rotation_interval  = "5m"
   }
 
-}
+  web_app_routing {
+    dns_zone_id = azurerm_dns_zone.this.id
+  }
 
-resource "azapi_update_resource" "this" {
-  depends_on = [
-    azurerm_kubernetes_cluster.this
-  ]
-
-  type        = "Microsoft.ContainerService/managedClusters@2022-09-02-preview"
-  resource_id = azurerm_kubernetes_cluster.this.id
-
-  body = jsonencode({
-    properties = {
-      ingressProfile = {
-        webAppRouting = {
-          enabled = true
-        }
-      }
-    }
-  })
 }
 
 data "azurerm_user_assigned_identity" "web_app_routing" {
   depends_on = [
-    azapi_update_resource.this
+    azurerm_kubernetes_cluster.this
   ]
   name                = "webapprouting-${local.aks_name}"
   resource_group_name = azurerm_kubernetes_cluster.this.node_resource_group
