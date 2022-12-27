@@ -69,6 +69,4 @@ func main() {
 
 	fmt.Print("Listening on ", port)
 	log.Fatal(r.Run(port))
-
-	r.Run(port)
 }
