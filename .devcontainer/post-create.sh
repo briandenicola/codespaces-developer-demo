@@ -40,6 +40,9 @@ rm -f /tmp/flux2.tar.gz
 npm install -g playwright@latest
 npx playwright install-deps
 
+# Install Task
+sudo sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+
 # Update Kubelogin and kubectl
 sudo az aks install-cli
 

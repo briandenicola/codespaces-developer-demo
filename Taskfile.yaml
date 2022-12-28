@@ -1,0 +1,76 @@
+version: '3'
+
+env:
+  ENVIRONMENT: dev
+  
+tasks:
+  environment:
+    cmds:
+    #- terraform -chdir=./infrastructure init
+    #- terraform -chdir=./infrastructure apply -auto-approve
+    - task: creds
+    - task: skaffold-run
+  
+  creds:
+    cmds:
+    - az aks get-credentials -g {{.RG}} -n {{.AKS}} --overwrite-existing
+    - kubelogin convert-kubeconfig -l azurecli
+    vars:
+      RG: 
+        sh: terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP
+      AKS: 
+        sh: terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME
+
+  skaffold-dev:
+    cmds:
+    - task: setup-manifests
+    - az acr login -n {{.SKAFFOLD_DEFAULT_REPO}}
+    - export SKAFFOLD_DEFAULT_REPO={{.SKAFFOLD_DEFAULT_REPO}} ; 
+      cd manifests ; 
+      skaffold dev
+    vars:
+      SKAFFOLD_DEFAULT_REPO:
+        sh: terraform -chdir=./infrastructure output -raw ACR_NAME
+
+  skaffold-run:
+    cmds:
+    - task: setup-manifests
+    - az acr login -n {{.SKAFFOLD_DEFAULT_REPO}}
+    - export SKAFFOLD_DEFAULT_REPO={{.SKAFFOLD_DEFAULT_REPO}} ; 
+      cd manifests ; 
+      skaffold run
+    vars:
+      SKAFFOLD_DEFAULT_REPO:
+        sh: terraform -chdir=./infrastructure output -raw ACR_NAME
+
+  setup-manifests:
+    cmds:
+    - export CERTIFICATE_KV_URI={{.CERTIFICATE_KV_URI}} ;
+      export WORKLOAD_IDENTITY={{.WORKLOAD_IDENTITY}} ;
+      export APPLICATION_URI={{.APPLICATION_URI}} ;
+      export SERVICE_NAME={{.SERVICE_NAME}} ;
+      envsubst < manifests/overlays/templates/ingress.tmpl > manifests/overlays/dev/ingress.yaml
+    - export WORKLOAD_IDENTITY={{.WORKLOAD_IDENTITY}} ;
+      envsubst < manifests/overlays/templates/deployment.tmpl > manifests/overlays/dev/deployment.yaml
+    vars:
+      SERVICE_NAME: ${ENVIRONMENT}-whatos
+      RG: 
+        sh: terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP
+      AKS: 
+        sh: terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME
+      WORKLOAD_IDENTITY:
+        sh: terraform -chdir=./infrastructure output -raw WORKLOAD_IDENTITY
+      APPLICATION_URI:
+        sh: terraform -chdir=./infrastructure output -raw APPLICATION_URI
+      CERTIFICATE_KV_URI: 
+        sh: terraform -chdir=./infrastructure output -raw CERTIFICATE_KV_URI
+
+  clean:
+    cmds:
+    - cd infrastructure ;
+      rm -rf .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info
+    - az group delete -n {{.RG}} --yes || true
+    vars:
+      RG: 
+        sh: terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP
+	

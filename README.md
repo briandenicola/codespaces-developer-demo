@@ -7,41 +7,29 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 * [DevContainers](https://containers.dev/) build consistent developer environments
 
 # Quicksteps
+## Complete Environment
 ```bash
     az login --scope https://graph.microsoft.com/.default
-    make environment
+    task environment
+```
+
+## Deploy Skaffold
+```bash
+    task skaffold-dev
+```
+
+## Clean up
+```bash
+    task cleanup
 ```
 
 ## Notes
 * This will create an AKS cluster and deploy code to it using Skaffold.
-* skaffold can be configured to continuously monitor for any code changes. 
-    * This will also open a port-forward from the kubernetes cluster to your local browser.
-    * To test:
-    ```golang
-        source ./scripts/setup-env.sh
-        cd manifests
-        skaffold dev
-        //Modify a line in main.go and watch the change get automatically push to the cluster
-            var version string = "v1"
-        //to 
-            var version string = "v1.1"
-    ```
 * If you are using Codespaces, then after a restart, do:
     ```bash
         make refresh
     ```
     * This will add the Codespaces IP addres to the ACLs for Azure Container Registry, Key Vault and AKS
-* If you want to re-generate any deployment manifests, do:
-    ```bash
-        make manifests
-    ```
-    * Sample Draft Answers:
-        ```
-        Modules: Yes
-        Ports Expose: 8081
-        Name of Application: whatos
-        Deployment Type: kustomize
-        ```
 
 # Validate 
 * Skaffold will automtically run Golang Unit test cases and a Custom curl Test on each build/deploy 
