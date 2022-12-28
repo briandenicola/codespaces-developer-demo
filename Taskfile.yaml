@@ -2,15 +2,15 @@ version: '3'
 
 env:
   ENVIRONMENT: dev
-  
+
 tasks:
   environment:
     cmds:
-    #- terraform -chdir=./infrastructure init
-    #- terraform -chdir=./infrastructure apply -auto-approve
+    - terraform -chdir=./infrastructure init
+    - terraform -chdir=./infrastructure apply -auto-approve
     - task: creds
-    - task: skaffold-run
-  
+    - task: skaffold
+
   creds:
     cmds:
     - az aks get-credentials -g {{.RG}} -n {{.AKS}} --overwrite-existing
@@ -21,27 +21,17 @@ tasks:
       AKS: 
         sh: terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME
 
-  skaffold-dev:
+  skaffold:
     cmds:
     - task: setup-manifests
     - az acr login -n {{.SKAFFOLD_DEFAULT_REPO}}
     - export SKAFFOLD_DEFAULT_REPO={{.SKAFFOLD_DEFAULT_REPO}} ; 
       cd manifests ; 
-      skaffold dev
+      skaffold {{.ARGS}}
     vars:
       SKAFFOLD_DEFAULT_REPO:
         sh: terraform -chdir=./infrastructure output -raw ACR_NAME
-
-  skaffold-run:
-    cmds:
-    - task: setup-manifests
-    - az acr login -n {{.SKAFFOLD_DEFAULT_REPO}}
-    - export SKAFFOLD_DEFAULT_REPO={{.SKAFFOLD_DEFAULT_REPO}} ; 
-      cd manifests ; 
-      skaffold run
-    vars:
-      SKAFFOLD_DEFAULT_REPO:
-        sh: terraform -chdir=./infrastructure output -raw ACR_NAME
+      ARGS: '{{default "run" .CLI_ARGS}}'
 
   setup-manifests:
     cmds:
@@ -73,4 +63,3 @@ tasks:
     vars:
       RG: 
         sh: terraform -chdir=./infrastructure output -raw AKS_RESOURCE_GROUP
-	

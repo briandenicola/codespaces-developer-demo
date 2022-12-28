@@ -13,9 +13,14 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
     task environment
 ```
 
-## Deploy Skaffold
+## Deploy Skaffold - Dev Mode
 ```bash
-    task skaffold-dev
+    task skaffold -- dev
+```
+
+## Deploy Skaffold - Run Mode
+```bash
+    task skaffold -- run
 ```
 
 ## Clean up
