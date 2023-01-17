@@ -4,7 +4,7 @@ env:
   ENVIRONMENT: dev
 
 tasks:
-  environment:
+  up:
     cmds:
     - terraform -chdir=./infrastructure init
     - terraform -chdir=./infrastructure apply -auto-approve
@@ -55,7 +55,7 @@ tasks:
       CERTIFICATE_KV_URI: 
         sh: terraform -chdir=./infrastructure output -raw CERTIFICATE_KV_URI
 
-  clean:
+  down:
     cmds:
     - cd infrastructure ;
       rm -rf .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info

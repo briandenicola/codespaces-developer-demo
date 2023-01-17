@@ -10,7 +10,7 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 ## Complete Environment
 ```bash
     az login --scope https://graph.microsoft.com/.default
-    task environment
+    task up
 ```
 
 ## Deploy Skaffold - Dev Mode
@@ -25,7 +25,7 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 
 ## Clean up
 ```bash
-    task cleanup
+    task down
 ```
 
 ## Notes
