@@ -5,3 +5,4 @@ export APPLICATION_URI=$(terraform -chdir=./infrastructure output -raw APPLICATI
 export CERTIFICATE_KV_URI=$(terraform -chdir=./infrastructure output -raw CERTIFICATE_KV_URI)
 export WORKLOAD_IDENTITY=$(terraform -chdir=./infrastructure output -raw WORKLOAD_IDENTITY)
 export ACR_NAME=$(terraform -chdir=./infrastructure output -raw ACR_NAME)
+export KEYVAULT_NAME=$(terraform -chdir=./infrastructure output -raw KEYVAULT_NAME)

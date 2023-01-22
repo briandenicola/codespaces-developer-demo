@@ -10,7 +10,7 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 ## Complete Environment
 ```bash
     az login --scope https://graph.microsoft.com/.default
-    task environment
+    task up
 ```
 
 ## Deploy Skaffold - Dev Mode
@@ -25,14 +25,14 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 
 ## Clean up
 ```bash
-    task cleanup
+    task down
 ```
 
 ## Notes
 * This will create an AKS cluster and deploy code to it using Skaffold.
 * If you are using Codespaces, then after a restart, do:
     ```bash
-        make refresh
+        task update-firewalls
     ```
     * This will add the Codespaces IP addres to the ACLs for Azure Container Registry, Key Vault and AKS
 

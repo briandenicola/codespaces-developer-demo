@@ -4,7 +4,8 @@ env:
   ENVIRONMENT: dev
 
 tasks:
-  environment:
+  desc: Creates Azure environment
+  up:
     cmds:
     - terraform -chdir=./infrastructure init
     - terraform -chdir=./infrastructure apply -auto-approve
@@ -12,6 +13,7 @@ tasks:
     - task: skaffold
 
   creds:
+    desc: Gets AKS credentials
     cmds:
     - az aks get-credentials -g {{.RG}} -n {{.AKS}} --overwrite-existing
     - kubelogin convert-kubeconfig -l azurecli
@@ -22,6 +24,7 @@ tasks:
         sh: terraform -chdir=./infrastructure output -raw AKS_CLUSTER_NAME
 
   skaffold:
+    desc: Deploys application via Skaffold
     cmds:
     - task: setup-manifests
     - az acr login -n {{.SKAFFOLD_DEFAULT_REPO}}
@@ -33,7 +36,13 @@ tasks:
         sh: terraform -chdir=./infrastructure output -raw ACR_NAME
       ARGS: '{{default "run" .CLI_ARGS}}'
 
+  update-firewalls:
+    desc: Update firewall rules for Keyvault, AKS, and ACR
+    cmds:
+    - ./scripts/update-firewalls.sh
+
   setup-manifests:
+    desc: Sets up manifests for kustomized deployment
     cmds:
     - export CERTIFICATE_KV_URI={{.CERTIFICATE_KV_URI}} ;
       export WORKLOAD_IDENTITY={{.WORKLOAD_IDENTITY}} ;
@@ -55,7 +64,8 @@ tasks:
       CERTIFICATE_KV_URI: 
         sh: terraform -chdir=./infrastructure output -raw CERTIFICATE_KV_URI
 
-  clean:
+  down:
+    desc: Cleans up Azure
     cmds:
     - cd infrastructure ;
       rm -rf .terraform.lock.hcl .terraform terraform.tfstate terraform.tfstate.backup .terraform.tfstate.lock.info
