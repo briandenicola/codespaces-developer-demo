@@ -39,7 +39,7 @@ tasks:
   update-firewalls:
     desc: Update firewall rules for Keyvault, AKS, and ACR
     cmds:
-    - ./scripts/update-firewalls.sh
+    - bash ./scripts/update-firewalls.sh
 
   setup-manifests:
     desc: Sets up manifests for kustomized deployment
