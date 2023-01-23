@@ -8,6 +8,7 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 
 # Quicksteps
 ## Complete Environment
+> **_NOTE:_** `task up` will create all required Azure resources (locked down to the Codespace's current IP Address) then deploy code via `skaffold run`
 ```bash
     az login --scope https://graph.microsoft.com/.default
     task up
