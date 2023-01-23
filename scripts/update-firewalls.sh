@@ -1,18 +1,18 @@
 #!/bin/bash
 
-source ./scripts/setup-env.sh
-
-# check if resource group variable is defined else exit
-echo $RG | grep -i warning >> /dev/null 2>&1
-if [[ $? -eq 0 ]]; then
-    echo "Resource group not defined by terraform. Please create the environment by running `task up` Exiting."
-    exit 1
-fi
-
 # check if logged into azure exit if not
 az account show  >> /dev/null 2>&1
 if [[ $? -ne 0 ]]; then
   echo "Please login to Azure before updating firewall rules"
+  exit 1
+fi
+
+# check if resource group variable is defined else exit
+source ./scripts/setup-env.sh
+echo $RG | grep -i warning >> /dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+    echo "Resource group not defined by terraform. Please create the environment by running 'task up'. Exiting."
+    exit 1
 fi
 
 ip=$(curl -sS http://checkip.amazonaws.com/)
