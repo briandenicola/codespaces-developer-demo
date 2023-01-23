@@ -21,3 +21,15 @@ spec:
           image: whatos:latest
           ports:
             - containerPort: 8081
+          securityContext:
+            allowPrivilegeEscalation: false  
+            runAsUser: 1000       
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "2"
+            requests:
+              memory: "64Mi"
+              cpu: "0.25"   
