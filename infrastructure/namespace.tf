@@ -15,8 +15,10 @@ resource "kubernetes_namespace" "whatos" {
 
 resource "kubernetes_service_account" "whatos-workload-identity" {
   depends_on = [
-    kubernetes_namespace.whatos
+    kubernetes_namespace.whatos,
+    kubernetes_secret.whatos-workload-sa-identity
   ]
+  
   metadata {
     name      = "${local.resource_name}-sa-identity"
     namespace = "whatos"
@@ -34,6 +36,9 @@ resource "kubernetes_service_account" "whatos-workload-identity" {
 }
 
 resource "kubernetes_secret" "whatos-workload-sa-identity" {
+  depends_on = [
+    kubernetes_namespace.whatos
+  ]
   metadata {
     name      = "whatos-workload-sa-identity"
     namespace = "whatos"
