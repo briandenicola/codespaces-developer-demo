@@ -14,11 +14,13 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 ```
 
 ## Deploy Skaffold - Dev Mode
+> **_NOTE:_** Dev Mode will continuously build, test, and deploy changes to your kubernetes cluster when your code changes 
 ```bash
     task skaffold -- dev
 ```
 
 ## Deploy Skaffold - Run Mode
+> **_NOTE:_**  Run Mode will build, test, and deploy your code to your kubernetes cluster once
 ```bash
     task skaffold -- run
 ```
