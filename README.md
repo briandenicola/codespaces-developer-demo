@@ -32,7 +32,7 @@ This repository is a demostration on how to use GitHub CodeSpaces customized wit
 * This will create an AKS cluster and deploy code to it using Skaffold.
 * If you are using Codespaces, then after a restart, do:
     ```bash
-        make refresh
+        task update-firewalls
     ```
     * This will add the Codespaces IP addres to the ACLs for Azure Container Registry, Key Vault and AKS
 

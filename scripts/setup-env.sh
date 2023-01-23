@@ -7,3 +7,5 @@ export SKAFFOLD_DEFAULT_REPO=$(terraform -chdir=${INFRA_PATH} output -raw ACR_NA
 export APPLICATION_URI=$(terraform -chdir=${INFRA_PATH} output -raw APPLICATION_URI)
 export CERTIFICATE_KV_URI=$(terraform -chdir=${INFRA_PATH} output -raw CERTIFICATE_KV_URI)
 export WORKLOAD_IDENTITY=$(terraform -chdir=${INFRA_PATH} output -raw WORKLOAD_IDENTITY)
+export ACR_NAME=$(terraform -chdir=./infrastructure output -raw ACR_NAME)
+export KEYVAULT_NAME=$(terraform -chdir=./infrastructure output -raw KEYVAULT_NAME)

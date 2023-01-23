@@ -8,6 +8,11 @@ output "AKS_CLUSTER_NAME" {
     sensitive = false
 }
 
+output "KEYVAULT_NAME" {
+    value = azurerm_key_vault.this.name
+    sensitive = false
+}
+
 output "ACR_NAME" {
     value = azurerm_container_registry.this.login_server
     sensitive = false
