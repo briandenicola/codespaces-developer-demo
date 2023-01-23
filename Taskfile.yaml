@@ -4,8 +4,8 @@ env:
   ENVIRONMENT: dev
 
 tasks:
-  desc: Creates Azure environment
   up:
+    desc: Creates Azure environment
     cmds:
     - terraform -chdir=./infrastructure init
     - terraform -chdir=./infrastructure apply -auto-approve
