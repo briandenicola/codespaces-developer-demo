@@ -4,11 +4,10 @@
 
 echo "$(date)    post-start start" >> ~/status
 az extension update --name aks-preview
-echo "\e[34m»»»\e[32mVersion details: \e[39m$(az --version)" >> ~/status 
+az --version >> ~/status 
 
-echo "$(date)    Update Resource firewalls " >> ~/status
-cd ${CODESPACE_VSCODE_FOLDER}
-bash ./scripts/update-firewalls.sh
+echo "$(date)    Update azure cli" >> ~/status
+az upgrade --yes
 
 echo "$(date)    Turn off Skaffold metric collection " >> ~/status
 skaffold config set --global collect-metrics false
