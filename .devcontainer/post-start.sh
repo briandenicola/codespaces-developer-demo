@@ -10,4 +10,7 @@ echo "$(date)    Update Resource firewalls " >> ~/status
 cd ${CODESPACE_VSCODE_FOLDER}
 bash ./scripts/update-firewalls.sh
 
+echo "$(date)    Turn off Skaffold metric collection " >> ~/status
+skaffold config set --global collect-metrics false
+
 echo "$(date)    post-start complete" >> ~/status
