@@ -29,7 +29,7 @@ resource "random_integer" "services_cidr" {
 }
 
 locals {
-  location        = "southcentralus"
+  location        = var.region
   resource_name   = "${random_pet.this.id}-${random_id.this.dec}"
   aks_name        = "${local.resource_name}-aks"
   acr_name        = "${random_pet.this.id}${random_id.this.dec}acr"
