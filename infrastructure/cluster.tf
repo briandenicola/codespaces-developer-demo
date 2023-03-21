@@ -23,7 +23,6 @@ resource "azurerm_kubernetes_cluster" "this" {
   local_account_disabled            = true
   role_based_access_control_enabled = true
   automatic_channel_upgrade         = "patch"
-  api_server_authorized_ip_ranges   = ["${chomp(data.http.myip.response_body)}/32"]
 
   azure_active_directory_role_based_access_control {
     managed                = true
@@ -41,6 +40,10 @@ resource "azurerm_kubernetes_cluster" "this" {
     client_id                 = azurerm_user_assigned_identity.aks_kubelet_identity.client_id
     object_id                 = azurerm_user_assigned_identity.aks_kubelet_identity.principal_id
     user_assigned_identity_id = azurerm_user_assigned_identity.aks_kubelet_identity.id
+  }
+
+  api_server_access_profile {
+    authorized_ip_ranges  = ["${chomp(data.http.myip.response_body)}/32"]
   }
 
   default_node_pool {

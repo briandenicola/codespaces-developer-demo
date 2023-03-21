@@ -6,3 +6,8 @@ variable "azure_rbac_group_object_id" {
 variable "production" {
   default     = false
 }
+
+variable "region" {
+  default     = "southcentralus"
+  description = "The Azure region to deploy to"
+}

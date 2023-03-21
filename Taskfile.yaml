@@ -7,11 +7,15 @@ tasks:
   up:
     desc: Creates Azure environment
     cmds:
+    - terraform -chdir=./infrastructure workspace new {{.REGION}} || true
+    - terraform -chdir=./infrastructure workspace select {{.REGION}}
     - terraform -chdir=./infrastructure init
-    - terraform -chdir=./infrastructure apply -auto-approve
+    - terraform -chdir=./infrastructure apply -auto-approve -var "region={{.REGION}}"
     - task: creds
     - task: skaffold
-
+    vars:
+      REGION: '{{default "southcentralus" .CLI_ARGS}}'
+  
   creds:
     desc: Gets AKS credentials
     cmds:
