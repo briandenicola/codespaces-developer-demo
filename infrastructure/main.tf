@@ -25,20 +25,26 @@ resource "random_integer" "vnet_cidr" {
 
 resource "random_integer" "services_cidr" {
   min = 64
+  max = 99
+}
+
+resource "random_integer" "pod_cidr" {
+  min = 100
   max = 127
 }
 
 locals {
-  location        = var.region
-  resource_name   = "${random_pet.this.id}-${random_id.this.dec}"
-  aks_name        = "${local.resource_name}-aks"
-  acr_name        = "${random_pet.this.id}${random_id.this.dec}acr"
-  redis_name      = "${random_pet.this.id}${random_id.this.dec}-cache"
-  workload_id     = "${local.resource_name}-sa-identity"
-  cluster_path    = "./infrastructure/cluster-config"
-  flux_repository = "https://github.com/briandenicola/codespaces-developer-demo"
-  vnet_cidr       = cidrsubnet("10.0.0.0/8", 8, random_integer.vnet_cidr.result)
-  subnet_cidir    = cidrsubnet(local.vnet_cidr, 8, 2)
+  location           = var.region
+  resource_name      = "${random_pet.this.id}-${random_id.this.dec}"
+  aks_name           = "${local.resource_name}-aks"
+  acr_name           = "${random_pet.this.id}${random_id.this.dec}acr"
+  redis_name         = "${random_pet.this.id}${random_id.this.dec}-cache"
+  workload_id        = "${local.resource_name}-sa-identity"
+  cluster_path       = "./infrastructure/cluster-config"
+  flux_repository    = "https://github.com/briandenicola/codespaces-developer-demo"
+  vnet_cidr          = cidrsubnet("10.0.0.0/8", 8, random_integer.vnet_cidr.result)
+  api_subnet_cidir   = cidrsubnet(local.vnet_cidr, 12, 1)
+  nodes_subnet_cidir = cidrsubnet(local.vnet_cidr, 8, 2)
 }
 
 resource "azurerm_resource_group" "this" {
