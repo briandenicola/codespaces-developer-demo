@@ -8,7 +8,7 @@ resource "azurerm_kubernetes_cluster" "this" {
       default_node_pool.0.node_count,
     ]
   }
-  
+
   name                              = local.aks_name
   resource_group_name               = azurerm_resource_group.this.name
   location                          = azurerm_resource_group.this.location
@@ -23,8 +23,9 @@ resource "azurerm_kubernetes_cluster" "this" {
   local_account_disabled            = true
   role_based_access_control_enabled = true
   automatic_channel_upgrade         = "patch"
-  image_cleaner_enabled        = true
-  image_cleaner_interval_hours = 48
+  node_os_channel_upgrade           = "NodeImage"
+  image_cleaner_enabled             = true
+  image_cleaner_interval_hours      = 48
 
   api_server_access_profile {
     vnet_integration_enabled = true
@@ -64,7 +65,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     max_pods            = 40
 
     upgrade_settings {
-      max_surge             = "33%"
+      max_surge = "33%"
     }
   }
 
@@ -73,7 +74,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     service_cidr        = "100.${random_integer.services_cidr.id}.0.0/16"
     pod_cidr            = "100.${random_integer.pod_cidr.id}.0.0/16"
     network_plugin      = "azure"
-    network_plugin_mode = "Overlay"
+    network_plugin_mode = "overlay"
     network_policy      = "azure"
     load_balancer_sku   = "standard"
   }
@@ -87,8 +88,8 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   key_vault_secrets_provider {
-    secret_rotation_enabled   = true
-    secret_rotation_interval  = "5m"
+    secret_rotation_enabled  = true
+    secret_rotation_interval = "5m"
   }
 
   web_app_routing {
