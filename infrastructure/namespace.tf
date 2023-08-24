@@ -4,12 +4,6 @@ resource "kubernetes_namespace" "whatos" {
   ]
   metadata {
     name = "whatos"
-    labels = {
-      "openservicemesh.io/monitored-by" = "osm"
-    }
-    annotations = {
-      "openservicemesh.io/sidecar-injection" = "enabled"
-    }
   }
 }
 
