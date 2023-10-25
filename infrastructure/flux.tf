@@ -1,6 +1,7 @@
 resource "azurerm_kubernetes_cluster_extension" "flux" {
   depends_on = [
-    azapi_update_resource.post-configs,
+    //azapi_update_resource.post-configs,
+    azurerm_kubernetes_cluster.this
   ]
   name           = "flux"
   cluster_id     = azurerm_kubernetes_cluster.this.id

@@ -17,7 +17,7 @@ resource "azurerm_user_assigned_identity" "whatos_service_account_identity" {
 }
 
 resource "azurerm_federated_identity_credential" "federated_identity_credential" {
-  name                =  local.workload_id
+  name                = local.workload_id
   resource_group_name = azurerm_resource_group.this.name
   audience            = ["api://AzureADTokenExchange"]
   issuer              = azurerm_kubernetes_cluster.this.oidc_issuer_url
