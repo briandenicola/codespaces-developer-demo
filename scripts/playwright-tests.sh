@@ -8,4 +8,5 @@ echo Testing ${APPLICATION_URI} at ${APPLICATION_URI_IP}:443
 
 cd ../tests
 npm install -D playwright@latest
-npx playwright test
+npx playwright install
+npx playwright test 

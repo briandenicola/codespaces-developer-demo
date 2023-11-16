@@ -19,6 +19,7 @@ test('test healthz', async ({ request, context }) => {
 });
 
 test('test os', async ({ request, context }) => {
+  await context.tracing.start({ screenshots: true, snapshots: true });
   const os = await request.get(`https://${BASE_URL}/api/os`);
   expect(os.ok()).toBeTruthy();
   expect(await os.json()).toEqual(
@@ -28,4 +29,5 @@ test('test os', async ({ request, context }) => {
         Time: expect.any(String),
         Version: "v1"
     }));
+  await context.tracing.stop({ path: 'trace.zip' });
 });
