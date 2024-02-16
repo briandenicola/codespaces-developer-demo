@@ -4,6 +4,7 @@ namePrefix: dev-
 resources:
 - ../../base
 - ingress.yaml
+- cosmosdb.yaml
 - redis.yaml
 - rabbitmq.yaml
 patches:

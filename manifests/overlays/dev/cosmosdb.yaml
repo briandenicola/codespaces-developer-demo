@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cosmosdb
+  namespace: whatos
+  labels:
+    service: cosmosdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: cosmosdb
+  template:
+    metadata:
+      labels:
+        service: cosmosdb
+    spec:
+      containers:
+        - name: cosmosdb
+          image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+          ports:
+            - containerPort: 8081
+            - containerPort: 10250
+            - containerPort: 10251
+            - containerPort: 10252
+            - containerPort: 10253
+            - containerPort: 10254
+            - containerPort: 10255
+          securityContext:
+            allowPrivilegeEscalation: false  
+            runAsUser: 1000       
+            runAsNonRoot: true
+          resources:
+            limits:
+              memory: "2048Mi"
+              cpu: "2"
+            requests:
+              memory: "1024Mi"
+              cpu: "0.25"
+              
+   
