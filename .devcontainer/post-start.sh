@@ -12,4 +12,7 @@ az --version >> ~/status
 echo "$(date)    Turn off Skaffold metric collection " >> ~/status
 skaffold config set --global collect-metrics false
 
+echo "$(date)    Create Cluster " >> ~/status
+kind create cluster
+
 echo "$(date)    post-start complete" >> ~/status
